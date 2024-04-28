@@ -1,0 +1,49 @@
+name: dobee
+description: "A new Flutter project."
+publish_to: 'none' 
+
+version: 1.0.0+2
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  percent_indicator: ^4.2.3
+  firebase_core: ^2.30.0
+  firebase_auth: ^4.19.2
+  animated_text_kit: ^4.2.2
+  modal_progress_hud_nsn: ^0.5.1
+  cloud_firestore: ^4.17.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^3.0.0
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/
+  
+  fonts:
+    - family: Lato
+      fonts:
+        - asset: fonts/Lato-Bold.ttf
+        - asset: fonts/Lato-Regular.ttf
+        - asset: fonts/Lato-Black.ttf 
+        - asset: fonts/Lato-BlackItalic.ttf 
+        - asset: fonts/Lato-Bold.ttf 
+        - asset: fonts/Lato-BoldItalic.ttf 
+        - asset: fonts/Lato-Italic.ttf 
+        - asset: fonts/Lato-Light.ttf 
+        - asset: fonts/Lato-LightItalic.ttf 
+        - asset: fonts/Lato-Regular.ttf 
+        - asset: fonts/Lato-Thin.ttf 
+        - asset: fonts/Lato-ThinItalic.ttf

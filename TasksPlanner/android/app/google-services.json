@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "152372488840",
+    "project_id": "to-do-sylviezhang",
+    "storage_bucket": "to-do-sylviezhang.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:152372488840:android:82389b78b2617555ad0d3d",
+        "android_client_info": {
+          "package_name": "com.example.todo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtEsK2ESBULyQA4qvpzfA91Z6i59gRtjw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:152372488840:android:dc927a00b81c8198ad0d3d",
+        "android_client_info": {
+          "package_name": "com.oatsmoothie.apps.dobee"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtEsK2ESBULyQA4qvpzfA91Z6i59gRtjw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

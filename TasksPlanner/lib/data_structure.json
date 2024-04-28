@@ -1,0 +1,12 @@
+
+{
+    "name": "groceries",
+    "taskMetadata":   
+        { 
+            "egg": {"done": true}, 
+            "milk":  {"done": true},
+            "oranges": {"done": true}
+        },
+    "tasks": ["egg", "milk", "oranges"] 
+}
+
