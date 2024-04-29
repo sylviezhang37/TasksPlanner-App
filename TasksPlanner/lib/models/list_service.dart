@@ -9,9 +9,17 @@ class ListService {
 
   void signOut() async {
     await _auth.signOut();
-    print('signed out');
-    // Navigator.pushReplacementNamed(context, WelcomeScreen.id);
   }
+
+  Future<void> deleteUserAccount() async {
+  try {
+  await FirebaseAuth.instance.currentUser!.delete();
+  } on FirebaseAuthException catch (e) {
+    print(e);
+  } catch (e) {
+    print(e);
+  }
+}
 
   Stream<QuerySnapshot<Map<String, dynamic>>> get allLists {
     return FirebaseFirestore.instance

@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
           default:
             break;
         }
-        popUpAlert(context, errorMessage);
+        popUpAlert(context, false, kPopupTitle, errorMessage, () {Navigator.of(context).pop();});
       }
     } finally {
       if (mounted) {

@@ -126,6 +126,7 @@ ButtonStyle kHomePageButtonStyleLight = ElevatedButton.styleFrom(
   ),
 );
 
+String kPopupTitle = "Oops!";
 
 // style: Theme.of(context).textTheme.bodyMedium!.copyWith(
 //           color: Theme.of(context).colorScheme.onPrimary,

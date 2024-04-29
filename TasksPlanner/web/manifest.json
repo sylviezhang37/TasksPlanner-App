@@ -1,6 +1,6 @@
 {
-    "name": "dobee",
-    "short_name": "dobee",
+    "name": "TasksPlanner",
+    "short_name": "TasksPlanner",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

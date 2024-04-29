@@ -1,6 +1,6 @@
-import 'package:dobee/screens/home_page.dart';
-import 'package:dobee/screens/welcome_screen.dart';
-import 'package:dobee/utilities/constants.dart';
+import 'package:TasksPlanner/screens/home_page.dart';
+import 'package:TasksPlanner/screens/welcome_screen.dart';
+import 'package:TasksPlanner/utilities/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';

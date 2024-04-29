@@ -1,5 +1,6 @@
+import 'package:TasksPlanner/components/popup_alert.dart';
+import 'package:TasksPlanner/utilities/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dobee/components/popup_alert.dart';
 import 'package:flutter/material.dart';
 import '../navigation/nav_bar_item.dart';
 import '../screens/settings_screen.dart';
@@ -76,7 +77,9 @@ class _TasksScreenState extends State<TasksScreen> {
           NavBarItem(
             icon: Icon(Icons.share),
             onTap: () {
-              popUpAlert(context, "Come back later!");
+              popUpAlert(context, false, kPopupTitle, "Come back later!", () {
+                Navigator.of(context).pop();
+              });
             },
           ),
           NavBarItem(

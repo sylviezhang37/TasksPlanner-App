@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dobee/tasks/task_tile.dart';
+import 'package:TasksPlanner/tasks/task_tile.dart';
 import 'package:flutter/material.dart';
 
 import '../models/list_service.dart';

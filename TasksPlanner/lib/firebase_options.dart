@@ -57,7 +57,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '152372488840',
     projectId: 'to-do-sylviezhang',
     storageBucket: 'to-do-sylviezhang.appspot.com',
-    iosBundleId: 'com.oatsmoothie.apps.dobee',
+    iosBundleId: 'com.sylviezhang.todo',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(

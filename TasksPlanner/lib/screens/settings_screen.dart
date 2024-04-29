@@ -1,3 +1,4 @@
+import 'package:TasksPlanner/components/popup_alert.dart';
 import 'package:flutter/material.dart';
 import '../screens/welcome_screen.dart';
 import '../models/list_service.dart';
@@ -8,6 +9,11 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void deleteAccount() {
+      ListService().deleteUserAccount();
+      Navigator.pushReplacementNamed(context, WelcomeScreen.id);
+    }
+
     return Scaffold(
       appBar: AppBar(),
       body: Column(
@@ -17,12 +23,25 @@ class SettingsScreen extends StatelessWidget {
           Center(
               child: ElevatedButton(
                   child: Text(
-                    'Sign out',
+                    'Sign Out',
                     style: kSubtitleTextStyle,
                   ),
                   onPressed: () {
                     ListService().signOut();
                     Navigator.pushReplacementNamed(context, WelcomeScreen.id);
+                  })),
+          Center(
+              child: ElevatedButton(
+                  child: Text(
+                    'Delete My Account',
+                    style: kSubtitleTextStyle,
+                  ),
+                  onPressed: () {
+                    popUpAlert(context, true, "Are you sure?",
+                        "This action will permanently erase all your account information and data.\n Click 'OK' to confirm deletion, or 'CANCEL' to cancel the action.",
+                        () {
+                      deleteAccount();
+                    });
                   })),
           const Center(
               child: Text(

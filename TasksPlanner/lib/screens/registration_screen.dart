@@ -45,7 +45,7 @@ class _RegistrationState extends State<Registration> {
           default:
             break;
         }
-        popUpAlert(context, errorMessage);
+        popUpAlert(context, false, kPopupTitle, errorMessage, () {Navigator.of(context).pop();});
       }
     } finally {
       if (mounted) {
