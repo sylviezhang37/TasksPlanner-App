@@ -1,4 +1,6 @@
 import 'package:TasksPlanner/screens/home_page.dart';
+import 'package:TasksPlanner/screens/test_screen%20copy.dart';
+import 'package:TasksPlanner/screens/test_screen.dart';
 import 'package:TasksPlanner/screens/welcome_screen.dart';
 import 'package:TasksPlanner/utilities/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,8 +13,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  ); 
-  
+  );
+
   runApp(MyApp());
 }
 
@@ -29,16 +31,15 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.data == null) {
-              print('going to welcome');
-              return WelcomeScreen();  // No user logged in
+              return HomePage(); // No user logged in
             } else {
-              print('going to home');
-              return HomePage();  // User is logged in
+              return HomePage(); // User is logged in
             }
           }
           return Scaffold(
             body: Center(
-              child: CircularProgressIndicator(),  // Loading indicator while waiting
+              child:
+                  CircularProgressIndicator(), // Loading indicator while waiting
             ),
           );
         },
@@ -47,4 +48,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

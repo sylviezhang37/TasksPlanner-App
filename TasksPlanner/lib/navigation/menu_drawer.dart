@@ -14,7 +14,7 @@ class MenuDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-      stream: ListService().allLists,
+      stream: ListService().allLists(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return const Text("Something went wrong.");

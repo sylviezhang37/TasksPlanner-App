@@ -7,11 +7,10 @@ import '../models/user_lists.dart';
 import '../utilities/constants.dart';
 
 class HomePageMyLists extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-      stream: ListService().allLists,
+      stream: ListService().allLists(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           print("error in my lists");
@@ -20,6 +19,7 @@ class HomePageMyLists extends StatelessWidget {
           return Text('Error: ${snapshot.error}');
         } else if (snapshot.hasData) {
           List<TaskList> userLists = UserLists.fromQuerySnapshot(snapshot);
+          print(userLists);
 
           return ListView.builder(
             itemCount: userLists.length,

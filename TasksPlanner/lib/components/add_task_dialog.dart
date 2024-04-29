@@ -17,7 +17,7 @@ class AddTaskDialog extends StatelessWidget {
     Task? newTask;
 
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: ListService().allLists,
+        stream: ListService().allLists(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return const Text("Something went wrong.");
