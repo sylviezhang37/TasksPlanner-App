@@ -4,7 +4,7 @@ import '../models/task_list.dart';
 
 class UserLists {
   static String taskDoneFraction(List<TaskList> userLists) {
-    if (userLists.length == 0 || userLists == Null) {
+    if (userLists.isEmpty || userLists == null) {
       return '0';
     }
 
@@ -18,9 +18,10 @@ class UserLists {
   }
 
   static double taskDonePercentage(List<TaskList> userLists) {
-    if (userLists.length == 0) {
+    if (userLists.isEmpty || userLists == null) {
       return 0;
     }
+
     double totalLen = userLists
         .map((taskList) => taskList.length)
         .reduce((a, b) => a + b)
@@ -30,15 +31,19 @@ class UserLists {
         .reduce((a, b) => a + b)
         .toDouble();
 
+    if (totalLen == 0) return 0;
+
     return totalDone / totalLen;
   }
 
   static List<TaskList> fromQuerySnapshot(
       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
     List<TaskList> userLists = [];
-    for (var docSnapshot in snapshot.data!.docs) {
-      print('${docSnapshot.id} => ${docSnapshot.data()}');
-      userLists.add(TaskList.fromQuerySnapshot(querySnapshot: docSnapshot));
+    if (snapshot.hasData) {
+      for (var docSnapshot in snapshot.data!.docs) {
+        // print('${docSnapshot.id} => ${docSnapshot.data()}');
+        userLists.add(TaskList.fromQuerySnapshot(querySnapshot: docSnapshot));
+      }
     }
     return userLists;
   }

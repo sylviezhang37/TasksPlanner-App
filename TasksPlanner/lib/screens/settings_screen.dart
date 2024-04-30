@@ -16,25 +16,28 @@ class SettingsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          SizedBox(height: MediaQuery.of(context).size.height * 0.15),
-          Center(
-              child: ElevatedButton(
-                  child: Text(
+      body: Container(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                'Settings',
+                style: kHomePageHeaderTextStyle,
+              ),
+              ElevatedButton(
+                  child: const Text(
                     'Sign Out',
-                    style: kSubtitleTextStyle,
+                    style: kBodyTextStyle,
                   ),
                   onPressed: () {
                     ListService().signOut();
                     Navigator.pushReplacementNamed(context, WelcomeScreen.id);
-                  })),
-          Center(
-              child: ElevatedButton(
-                  child: Text(
+                  }),
+              ElevatedButton(
+                  child: const Text(
                     'Delete My Account',
-                    style: kSubtitleTextStyle,
+                    style: kBodyTextStyle,
                   ),
                   onPressed: () {
                     popUpAlert(context, true, "Are you sure?",
@@ -42,13 +45,15 @@ class SettingsScreen extends StatelessWidget {
                         () {
                       deleteAccount();
                     });
-                  })),
-          const Center(
-              child: Text(
-            '@oatsmoothie 2024',
-            style: kSubtitleTextStyle,
-          )),
-        ],
+                  }),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.15),
+              Text(
+                '@oatsmoothie 2024',
+                style: kBodyTextStyle,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -7,12 +7,11 @@ import '../models/task.dart';
 import '../models/task_list.dart';
 import '../models/user_lists.dart';
 
-
 // ignore: must_be_immutable
 class TasksListView extends StatelessWidget {
-  int listIndex;
+  TaskList? taskList;
 
-  TasksListView({required this.listIndex});
+  TasksListView({this.taskList});
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +25,20 @@ class TasksListView extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
 
+        List<Task> tasks = [];
         List<TaskList> userLists = UserLists.fromQuerySnapshot(snapshot);
 
-        List<Task> tasks = listIndex == -1
-            ? userLists.expand((taskList) => taskList.tasks).toList()
-            : userLists[listIndex].tasks;
+        if (taskList != null) {
+          print("taskList is not null");
+          for (TaskList currentTaskList in userLists) {
+            if (taskList!.id == currentTaskList.id) {
+              tasks = currentTaskList.tasks;
+            }
+          }
+        } else {
+          print("taskList is null");
+          tasks = userLists.expand((taskList) => taskList.tasks).toList();
+        }
 
         return ListView.builder(
           itemBuilder: (context, index) {

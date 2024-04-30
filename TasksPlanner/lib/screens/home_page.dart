@@ -1,5 +1,7 @@
+import 'package:TasksPlanner/components/search_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 import '../models/list_service.dart';
 import '../components/text_input_dialog.dart';
 import '../screens/settings_screen.dart';
@@ -23,6 +25,12 @@ class _HomePage extends State<HomePage> {
     super.initState();
   }
 
+  void addTaskList(BuildContext context, String taskListName) async {
+    String listID = await ListService().addTaskList(taskListName);
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => TasksScreen(listID: listID)));
+  }
+
   @override
   Widget build(BuildContext context) {
     if (ListService().currentUser == null) {
@@ -37,39 +45,22 @@ class _HomePage extends State<HomePage> {
         if (snapshot.hasError) {
           return const Text("Something went wrong.");
         }
-        if (!snapshot.hasData) {
-          print("error in home page");
-          return const Center(child: CircularProgressIndicator());
-        }
 
-        List<TaskList> userLists = UserLists.fromQuerySnapshot(snapshot);
-        // List<NavBarItem> navBarItems = [
-        //   NavBarItem(
-        //     icon: Icon(Icons.search),
-        //     onTap: () {},
-        //   ),
-        //   NavBarItem(
-        //     icon: Icon(Icons.settings),
-        //     onTap: () => Navigator.pushNamed(context, SettingsScreen.id),
-        //   ),
-        // ];
+        List<TaskList> userLists = [];
+        userLists = UserLists.fromQuerySnapshot(snapshot);
 
         return Scaffold(
-          // bottomNavigationBar: CustomNavigationBar(
-          //   items: navBarItems,
-          // ),
           floatingActionButton: ElevatedButton(
             style: kHomePageButtonStyleLight,
             onPressed: () {
               displayTextInputDialog(
                 context,
-                ListService().addTaskList,
-                userLists.length,
+                addTaskList,
               );
             },
             child: const Text(
               "Add List",
-              style: kSubtitleTextStyle,
+              style: kBodyTextStyle,
             ),
           ),
           floatingActionButtonLocation:
@@ -101,13 +92,13 @@ class _HomePage extends State<HomePage> {
                           child: Stack(children: [
                             Positioned(
                                 top: MediaQuery.of(context).size.width * 0.07,
-                                left: MediaQuery.of(context).size.width * 0.38,
+                                left: MediaQuery.of(context).size.width * 0.37,
                                 child: Image.asset('assets/clicking-post.png',
                                     width: MediaQuery.of(context).size.width *
-                                        0.45)),
+                                        0.46)),
                             Positioned(
                               top: MediaQuery.of(context).size.width * 0.1,
-                              left: 10,
+                              left: MediaQuery.of(context).size.width * 0.02,
                               child: Text(
                                 style: TextStyle(
                                     fontSize: 25.0,
@@ -118,11 +109,14 @@ class _HomePage extends State<HomePage> {
                               ),
                             ),
                             Positioned(
-                                top: 130,
+                                bottom:
+                                    MediaQuery.of(context).size.height * 0.06,
                                 left: 0,
                                 child: LinearPercentIndicator(
                                   barRadius: Radius.circular(2.0),
-                                  width: 120,
+                                  lineHeight: 7.0,
+                                  width:
+                                      MediaQuery.of(context).size.height * 0.14,
                                   percent:
                                       UserLists.taskDonePercentage(userLists),
                                   backgroundColor: Color(0xff3B64F0),
@@ -153,20 +147,23 @@ class _HomePage extends State<HomePage> {
                             child: HomePageMyLists()),
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 30, 0),
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                  elevation: MaterialStateProperty.all(0)),
-                              child: Icon(Icons.settings),
-                              onPressed: () {
-                                Navigator.pushNamed(context, SettingsScreen.id);
-                              },
-                            ))
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 0, horizontal: 30),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          kCustomButton(
+                              context,
+                              () => searchDialog(context, userLists),
+                              const Icon(Icons.search)),
+                          kCustomButton(
+                              context,
+                              () => Navigator.pushNamed(
+                                  context, SettingsScreen.id),
+                              const Icon(Icons.settings))
+                        ],
+                      ),
                     )
                   ]),
             ),

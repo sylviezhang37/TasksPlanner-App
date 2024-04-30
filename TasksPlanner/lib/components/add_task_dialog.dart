@@ -33,19 +33,24 @@ class AddTaskDialog extends StatelessWidget {
               .toList();
 
           return Container(
-            child: Container(
-              padding: const EdgeInsets.all(20.0),
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0),
-              )),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Center(
+            padding: const EdgeInsets.all(20.0),
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.0),
+              topRight: Radius.circular(20.0),
+            )),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Center(
+                  child: Material(
+                    elevation: 3,
+                    borderRadius: BorderRadius.circular(30.0),
                     child: DropdownMenu(
+                      requestFocusOnTap: true,
+                      enableSearch: true,
+                      menuStyle: const MenuStyle(alignment: Alignment.topLeft),
                       initialSelection: selectedTaskList.id,
                       dropdownMenuEntries: customDropdownEntries,
                       onSelected: (value) {
@@ -53,78 +58,73 @@ class AddTaskDialog extends StatelessWidget {
                             .where((taskList) => taskList.id == value)
                             .first;
                       },
-                      textStyle: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontSize: 15),
                       leadingIcon: Icon(
                         Icons.search,
                         color: Theme.of(context).colorScheme.primary,
                       ),
-                      width: MediaQuery.of(context).size.width * 0.6,
+                      width: MediaQuery.of(context).size.width * 0.7,
                       inputDecorationTheme: InputDecorationTheme(
                         labelStyle: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context).colorScheme.primary),
-                        ),
+                        border: kOutlineBorder,
+                        focusedBorder: kOutlineBorder,
                       ),
                     ),
                   ),
-                  kSpacing,
-                  kSpacing,
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 50),
-                    child: TextField(
-                      autofocus: true,
-                      textAlign: TextAlign.center,
-                      decoration: InputDecoration(hintText: 'To Do'),
-                      onChanged: (input) {
-                        newTask = Task(
-                          listId: selectedTaskList.id,
-                          name: input,
-                        );
-                      },
+                ),
+                kSpacing,
+                kSpacing,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 50),
+                  child: TextField(
+                    autofocus: true,
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(hintText: 'To Do'),
+                    onChanged: (input) {
+                      newTask = Task(
+                        listId: selectedTaskList.id,
+                        name: input,
+                      );
+                    },
+                  ),
+                ),
+                kSpacing,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 135.0,
+                      child: TextButton(
+                        child: Text(
+                          'CANCEL',
+                          style: kdialogActionTextStyle,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
                     ),
-                  ),
-                  kSpacing,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 135.0,
-                        child: TextButton(
-                          child: Text(
-                            'CANCEL',
-                            style: kdialogActionTextStyle,
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
+                    SizedBox(
+                      width: 135.0,
+                      child: TextButton(
+                        child: Text(
+                          'ADD',
+                          style: kdialogActionTextStyle,
                         ),
+                        onPressed: () {
+                          if (newTask != null) {
+                            selectedTaskList.addTask(newTask!);
+                            ListService()
+                                .updateTaskListMetadata(selectedTaskList);
+                          }
+                          Navigator.pop(context);
+                        },
                       ),
-                      SizedBox(
-                        width: 135.0,
-                        child: TextButton(
-                          child: Text(
-                            'ADD',
-                            style: kdialogActionTextStyle,
-                          ),
-                          onPressed: () {
-                            if (newTask != null) {
-                              selectedTaskList.addTask(newTask!);
-                              ListService()
-                                  .updateTaskListMetadata(selectedTaskList);
-                            }
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           );
         });

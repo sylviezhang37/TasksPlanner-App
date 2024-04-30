@@ -12,14 +12,10 @@ class HomePageMyLists extends StatelessWidget {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
       stream: ListService().allLists(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          print("error in my lists");
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
+        if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (snapshot.hasData) {
           List<TaskList> userLists = UserLists.fromQuerySnapshot(snapshot);
-          print(userLists);
 
           return ListView.builder(
             itemCount: userLists.length,
@@ -31,18 +27,25 @@ class HomePageMyLists extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => TasksScreen(
-                                listIndex: index,
+                                listID: userLists[index].id,
                               )));
                 },
                 child: Text(
                   userLists[index].name,
-                  style: kSubtitleTextStyle,
+                  style: kBodyTextStyle,
                 ),
               );
             },
           );
         } else {
-          return Text('No data found');
+          return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "You don't have a list yet.\nClick 'Add List' below to get started!",
+                  style: kBodyTextStyle.copyWith(fontSize: 15.0),
+                )
+              ]);
         }
       },
     );

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import '../tasks/tasks_screen.dart';
 
 TextEditingController _textFieldController = TextEditingController();
 
 Future<void> displayTextInputDialog(
   BuildContext context,
-  Function(String) addTaskListCallBack,
-  int numOfTaskLists,
+  Function(BuildContext, String) addTaskListCallBack,
 ) async {
   return showDialog(
     context: context,
@@ -27,15 +25,9 @@ Future<void> displayTextInputDialog(
           ),
           TextButton(
             child: Text('OK'),
-            onPressed: () {
+            onPressed: () async {
               if (_textFieldController.text.isNotEmpty) {
-                addTaskListCallBack(_textFieldController.text);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TasksScreen(
-                              listIndex: numOfTaskLists,
-                            )));
+                await addTaskListCallBack(context, _textFieldController.text);
                 _textFieldController.clear();
               } else {
                 Navigator.pop(context);

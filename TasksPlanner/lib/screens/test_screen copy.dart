@@ -1,61 +1,76 @@
-import 'package:TasksPlanner/models/list_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class TestScreen extends StatefulWidget {
-  static const String id = 'test_page';
+/// Flutter code sample for [SearchBar].
 
-  const TestScreen({super.key});
+void main() => runApp(const SearchBarApp());
+
+class SearchBarApp extends StatefulWidget {
+  const SearchBarApp({super.key});
 
   @override
-  State<TestScreen> createState() => _TestScreen();
+  State<SearchBarApp> createState() => _SearchBarAppState();
 }
 
-class _TestScreen extends State<TestScreen> {
+class _SearchBarAppState extends State<SearchBarApp> {
+  bool isDark = false;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Tasks'),
-      ),
-      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream:
-            ListService().allLists(), // Using the stream from your function
-        builder: (BuildContext context,
-            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          }
-          if (!snapshot.hasData) {
-            return Center(child: Text('No tasks found'));
-          }
+    final ThemeData themeData = ThemeData(
+        useMaterial3: true,
+        brightness: isDark ? Brightness.dark : Brightness.light);
 
-          return ListView(
-            children: snapshot.data!.docs
-                .map((DocumentSnapshot<Map<String, dynamic>> document) {
-              Map<String, dynamic> data = document.data()!;
+    return MaterialApp(
+      theme: themeData,
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Search Bar Sample')),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SearchAnchor(
+              builder: (BuildContext context, SearchController controller) {
+            return SearchBar(
+              controller: controller,
+              padding: const MaterialStatePropertyAll<EdgeInsets>(
+                  EdgeInsets.symmetric(horizontal: 16.0)),
+              onTap: () {
+                controller.openView();
+              },
+              onChanged: (_) {
+                controller.openView();
+              },
+              leading: const Icon(Icons.search),
+              trailing: <Widget>[
+                Tooltip(
+                  message: 'Change brightness mode',
+                  child: IconButton(
+                    isSelected: isDark,
+                    onPressed: () {
+                      setState(() {
+                        isDark = !isDark;
+                      });
+                    },
+                    icon: const Icon(Icons.wb_sunny_outlined),
+                    selectedIcon: const Icon(Icons.brightness_2_outlined),
+                  ),
+                )
+              ],
+            );
+          }, suggestionsBuilder:
+                  (BuildContext context, SearchController controller) {
+            return List<ListTile>.generate(5, (int index) {
+              final String item = 'item $index';
               return ListTile(
-                title: Text(data['name'] ??
-                    'No Title'), // Assuming 'title' is a field in your documents
-                // subtitle: Text(data['taskMetaData'] ??
-                //     'No Description'), // Assuming 'description' is another field
+                title: Text(item),
+                onTap: () {
+                  setState(() {
+                    controller.closeView(item);
+                  });
+                },
               );
-            }).toList(),
-          );
-        },
+            });
+          }),
+        ),
       ),
     );
   }
 }
-
-
-
-  // return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-  //     stream: ListService().currentUserLists(),
-  //     builder: (BuildContext context,
-  //         AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
-  //       return Text("hello");
-  //     });

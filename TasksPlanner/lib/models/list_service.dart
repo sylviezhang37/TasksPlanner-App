@@ -23,57 +23,42 @@ class ListService {
     }
   }
 
+  // methods for retrieving data
+
   Stream<QuerySnapshot<Map<String, dynamic>>> allUsers() {
     return FirebaseFirestore.instance.collection('Users').snapshots();
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> allTasks() {
-    return FirebaseFirestore.instance.collection('Tasks').snapshots();
-  }
-
-  Stream<DocumentSnapshot<Map<String, dynamic>>> userList(String listId) {
+  Stream<DocumentSnapshot<Map<String, dynamic>>> taskList(String listId) {
     return FirebaseFirestore.instance
         .collection('Tasks')
         .doc(listId)
         .snapshots();
   }
 
-  Stream<DocumentSnapshot<Map<String, dynamic>>> currentUserLists() {
+  Stream<DocumentSnapshot<Map<String, dynamic>>> userLists() {
     return FirebaseFirestore.instance
         .collection('Users')
-        .doc('VGIq0VzTjscQeOOHb2YJJk0crkr1')
-        // .doc(currentUser!.uid)
+        .doc(currentUser!.uid)
         .snapshots();
-  }
-
-  Future<DocumentSnapshot<Map<String, dynamic>>> testData() async {
-    DocumentSnapshot<Map<String, dynamic>> data = await FirebaseFirestore
-        .instance
-        .collection('Users')
-        .doc('VGIq0VzTjscQeOOHb2YJJk0crkr1')
-        .get();
-
-    return data;
   }
 
   Stream<List<Stream<DocumentSnapshot<Map<String, dynamic>>>>>
       allListsDocSnapshots() {
-    return currentUserLists().map((userDocument) {
+    return userLists().map((userDocument) {
       var data = userDocument.data();
-      print("User document data: $data");
       if (data == null || data['lists'] == null) {
         return <String>[];
       }
       return List<String>.from(data['lists']);
     }).map((listIds) {
-      print("List IDs: $listIds");
-      return listIds.map((listId) => userList(listId)).toList();
+      return listIds.map((listId) => taskList(listId)).toList();
     });
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> allLists() {
-    // Return a stream that listens to changes in currentUserLists()
-    return currentUserLists().switchMap((userDocument) {
+    // use switchmap to subscribe to changes in currentUsersList()
+    return userLists().switchMap((userDocument) {
       var data = userDocument.data();
       List<String> listIds = data != null && data['lists'] != null
           ? List<String>.from(data['lists'])
@@ -90,6 +75,7 @@ class ListService {
         var stream = FirebaseFirestore.instance
             .collection('Tasks')
             .where(FieldPath.documentId, whereIn: listIds)
+            .orderBy('createdAt')
             .snapshots();
         streamGroup.add(stream);
       }
@@ -98,35 +84,22 @@ class ListService {
     });
   }
 
-  // Stream<QuerySnapshot<Map<String, dynamic>>> get allListsOld {
-  //   return FirebaseFirestore.instance
-  //       .collection('TaskData')
-  //       .doc(currentUser!.uid)
-  //       .collection('Lists')
-  //       .orderBy('createdAt')
-  //       .snapshots();
-  // }
+  // methods for modifying user data
 
-  Stream<DocumentSnapshot<Map<String, dynamic>>> getList(String id) {
-    return FirebaseFirestore.instance
-        .collection('TaskData')
-        .doc(currentUser!.uid)
-        .collection('Lists')
-        .doc(id)
-        .snapshots();
-  }
-
-  // create a new document and collection in TaskData
   void newUserList(String uid) async {
+    // await FirebaseFirestore.instance.collection('Tasks').doc().set({});
+
     await FirebaseFirestore.instance
-        .collection('TaskData')
-        .doc(currentUser!.uid)
-        .collection('Lists')
-        .doc()
-        .set({});
+        .collection('Users')
+        .doc(uid)
+        .set({'lists': []}).catchError((error) {
+      print("Error updating user document with new lists array: $error");
+    });
   }
 
-  void addTaskList(String name) async {
+  /// add new empty list to Tasks
+  /// and update User's doc to reflect access to the new list
+  Future<String> addTaskList(String name) async {
     final emptyList = {
       "name": name,
       "taskMetaData": {},
@@ -134,20 +107,28 @@ class ListService {
       "createdAt": FieldValue.serverTimestamp(),
     };
 
+    DocumentReference docRef =
+        await FirebaseFirestore.instance.collection('Tasks').add(emptyList);
+
+    // Using arrayUnion to add the new doc ID without duplication
     await FirebaseFirestore.instance
-        .collection('Tasks')
+        .collection('Users')
         .doc(currentUser!.uid)
-        .collection('Lists')
-        .add(emptyList);
+        .update({
+      'lists': FieldValue.arrayUnion([docRef.id])
+    }).catchError((error) {
+      print("Error updating user document with a new task list ID: $error");
+    });
+
+    return docRef.id;
   }
 
+  /// update task status, and add/remove task
   void updateTaskListMetadata(TaskList taskList) async {
     Map<String, Map> metaData = taskList.transformToMetaData();
 
     await FirebaseFirestore.instance
-        .collection('TaskData')
-        .doc(currentUser!.uid)
-        .collection('Lists')
+        .collection('Tasks')
         .doc(taskList.id)
         .update({'taskMetaData': metaData});
   }

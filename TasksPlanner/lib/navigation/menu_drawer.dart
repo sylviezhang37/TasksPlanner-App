@@ -7,9 +7,10 @@ import '../models/user_lists.dart';
 
 class MenuDrawer extends StatelessWidget {
   final Function(int) onItemTapped;
-  final int selectedIndex;
+  // final int selectedIndex;
+  Function(BuildContext, String) addTaskListCallBack;
 
-  MenuDrawer({required this.onItemTapped, required this.selectedIndex});
+  MenuDrawer({required this.onItemTapped, required this.addTaskListCallBack});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class MenuDrawer extends StatelessWidget {
                 children: List.generate(userLists.length, (index) {
                   return ListTile(
                     title: Text(userLists[index].name),
-                    selected: selectedIndex == index,
+                    selected: false,
                     onTap: () {
                       onItemTapped(index);
                       Navigator.pop(context);
@@ -54,8 +55,7 @@ class MenuDrawer extends StatelessWidget {
                 onPressed: () {
                   displayTextInputDialog(
                     context,
-                    ListService().addTaskList,
-                    userLists.length,
+                    addTaskListCallBack,
                   );
                 },
                 icon: const Icon(Icons.add),

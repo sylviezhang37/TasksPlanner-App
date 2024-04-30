@@ -1,5 +1,3 @@
-import 'package:TasksPlanner/screens/test_screen%20copy.dart';
-import 'package:TasksPlanner/screens/test_screen.dart';
 import 'package:flutter/material.dart';
 import '../screens/settings_screen.dart';
 import '../screens/home_page.dart';
@@ -12,6 +10,5 @@ Map<String, Widget Function(BuildContext)> routes = <String, WidgetBuilder>{
   Registration.id: (context) => Registration(),
   LoginScreen.id: (context) => LoginScreen(),
   HomePage.id: (context) => HomePage(),
-  SettingsScreen.id: (context) => SettingsScreen(),
-  TestScreen.id: (context) => TestScreen()
+  SettingsScreen.id: (context) => SettingsScreen()
 };

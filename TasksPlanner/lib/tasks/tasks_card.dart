@@ -4,22 +4,20 @@ import '../models/task_list.dart';
 import '../models/user_lists.dart';
 import '../utilities/constants.dart';
 
-// ignore: must_be_immutable
 class TasksListCard extends StatelessWidget {
-  List<TaskList> userLists;
-  int listIndex;
+  TaskList? taskList;
   late String taskListName;
   late String taskListDoneFraction;
 
   TasksListCard({
-    required this.userLists,
-    required this.listIndex,
+    super.key,
+    required this.taskList,
   }) {
-    taskListName = userLists[listIndex].name;
-    taskListDoneFraction = userLists[listIndex].taskDoneFraction();
+    taskListName = taskList!.name;
+    taskListDoneFraction = taskList!.taskDoneFraction();
   }
 
-  TasksListCard.withoutIndex({super.key, required this.userLists}) : listIndex = -1 {
+  TasksListCard.forAllTaskLists({super.key, required userLists}) {
     {
       taskListName = "All Tasks";
       taskListDoneFraction = UserLists.taskDoneFraction(userLists);
@@ -47,22 +45,21 @@ class TasksListCard extends StatelessWidget {
                   ]),
                   Text(
                     '$taskListDoneFraction Completed',
-                    style: kSubtitleTextStyle,
+                    style: kBodyTextStyle,
                   ),
                 ],
               ),
             ),
             Expanded(
               child: Container(
-                padding: kTaskListCardPadding,
-                decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.secondaryContainer,
-                    borderRadius: kTaskListCardRadius,
-                    boxShadow: kTaskListBoxShadow),
-                child: TasksListView(
-                  listIndex: listIndex,
-                ),
-              ),
+                  padding: kTaskListCardPadding,
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.secondaryContainer,
+                      borderRadius: kTaskListCardRadius,
+                      boxShadow: kTaskListBoxShadow),
+                  child: taskList != null
+                      ? TasksListView(taskList: taskList)
+                      : TasksListView()),
             ),
           ]),
     );

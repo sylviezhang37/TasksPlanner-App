@@ -84,11 +84,6 @@ const SizedBox kSpacing = SizedBox(
   height: 10.0,
 );
 
-const TextStyle kSubtitleTextStyle = TextStyle(
-  fontSize: 18.0,
-  fontWeight: FontWeight.w400,
-);
-
 TextStyle kWelcomeScreenTextStyle =
     kThemeDataDark.textTheme.bodyLarge!.copyWith(
   color: kThemeDataDark.colorScheme.onPrimary,
@@ -110,8 +105,13 @@ const TextStyle kHomePageSubheaderTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
 );
 
+const TextStyle kBodyTextStyle = TextStyle(
+  fontSize: 18.0,
+  fontWeight: FontWeight.w400,
+);
+
 TextStyle kdialogActionTextStyle =
-    kSubtitleTextStyle.copyWith(fontWeight: FontWeight.w700);
+    kBodyTextStyle.copyWith(fontWeight: FontWeight.w600);
 
 ButtonStyle kHomePageButtonStyleDark = ElevatedButton.styleFrom(
   shape: RoundedRectangleBorder(
@@ -126,8 +126,17 @@ ButtonStyle kHomePageButtonStyleLight = ElevatedButton.styleFrom(
   ),
 );
 
+ElevatedButton kCustomButton(BuildContext context, Function() onPressed, Icon icon) =>
+    ElevatedButton(
+      style: ButtonStyle(elevation: MaterialStateProperty.all(0)),
+      onPressed: onPressed,
+      child: icon,
+    );
+
 String kPopupTitle = "Oops!";
 
-// style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-//           color: Theme.of(context).colorScheme.onPrimary,
-//         ),
+OutlineInputBorder kOutlineBorder = OutlineInputBorder(
+    borderSide: BorderSide(
+      color: kThemeDataDark.colorScheme.onPrimary,
+    ),
+    borderRadius: BorderRadius.all(Radius.circular(30.0)));

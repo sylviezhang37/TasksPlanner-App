@@ -1,6 +1,5 @@
 import 'package:TasksPlanner/screens/home_page.dart';
-import 'package:TasksPlanner/screens/test_screen%20copy.dart';
-import 'package:TasksPlanner/screens/test_screen.dart';
+import 'package:TasksPlanner/screens/settings_screen.dart';
 import 'package:TasksPlanner/screens/welcome_screen.dart';
 import 'package:TasksPlanner/utilities/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,12 +30,12 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.data == null) {
-              return HomePage(); // No user logged in
+              return WelcomeScreen(); // No user logged in
             } else {
               return HomePage(); // User is logged in
             }
           }
-          return Scaffold(
+          return const Scaffold(
             body: Center(
               child:
                   CircularProgressIndicator(), // Loading indicator while waiting

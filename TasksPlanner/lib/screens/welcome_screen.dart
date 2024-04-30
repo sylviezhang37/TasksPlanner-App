@@ -61,7 +61,7 @@ class _WelcomeScreen extends State<WelcomeScreen> {
                           },
                           child: const Text(
                             "Get Started",
-                            style: kSubtitleTextStyle,
+                            style: kBodyTextStyle,
                           ),
                         ),
                       ),
