@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../components/popup_alert.dart';
 import '../screens/home_page.dart';
@@ -51,7 +52,9 @@ class _LoginScreenState extends State<LoginScreen> {
           default:
             break;
         }
-        popUpAlert(context, false, kPopupTitle, errorMessage, () {Navigator.of(context).pop();});
+        popUpAlert(context, false, kPopupTitle, errorMessage, () {
+          Navigator.of(context).pop();
+        });
       }
     } finally {
       if (mounted) {
@@ -69,32 +72,33 @@ class _LoginScreenState extends State<LoginScreen> {
     // return StreamBuilder<User?>(
     //     stream: FirebaseAuth.instance.authStateChanges(),
     //     builder: (context, snapshot) {
-          return Scaffold(
-            appBar: AppBar(),
-            body: ModalProgressHUD(
-              inAsyncCall: showSpinner,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 35.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Flexible(
-                      child: Hero(
-                        tag: 'smiling-man',
-                        child: Container(
-                          height: 230.0,
-                          child: Image.asset(
-                              'assets/matey-smiling-man-sitting-at-the-table-and-waving-her-hand.png'),
-                        ),
-                      ),
+    return Scaffold(
+      appBar: AppBar(),
+      body: SafeArea(
+        child: ModalProgressHUD(
+          inAsyncCall: showSpinner,
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 35.0, vertical: 35.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Flexible(
+                  child: Hero(
+                    tag: 'smiling-man',
+                    child: Container(
+                      height: 230.0,
+                      child: Image.asset(
+                          'assets/matey-smiling-man-sitting-at-the-table-and-waving-her-hand.png'),
                     ),
-                    const SizedBox(
-                      height: 35.0,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                      child: TextField(
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: Column(
+                    children: [
+                      TextField(
                         controller: emailTextController,
                         keyboardType: TextInputType.emailAddress,
                         textAlign: TextAlign.center,
@@ -103,13 +107,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         decoration: kInputDecoration(context, "email"),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 8.0,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                      child: TextField(
+                      const SizedBox(
+                        height: 8.0,
+                      ),
+                      TextField(
                         controller: passwordTextController,
                         obscureText: true,
                         textAlign: TextAlign.center,
@@ -118,28 +119,36 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         decoration: kInputDecoration(context, "password"),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 30.0,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        signIn();
-                      },
-                      child: const Text("Log In"),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, Registration.id);
-                      },
-                      child: const Text('Register'),
-                    ),
-                  ],
+                      const SizedBox(height: 35.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          signIn();
+                        },
+                        style: kElevatedButtonStyle,
+                        child: const Text(
+                          "Log In",
+                          style: kBodyTextStyleDark,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, Registration.id);
+                        },
+                        child: Text(
+                          'Register',
+                          style: kHintTextStyle,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          );
-        // }
-        // );
+          ),
+        ),
+      ),
+    );
+    // }
+    // );
   }
 }

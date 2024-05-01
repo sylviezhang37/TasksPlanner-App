@@ -11,25 +11,32 @@ class CustomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomAppBar(
-      shape: const CircularNotchedRectangle(),
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      height: 60,
-      notchMargin: 5,
-      // color: Theme.of(context).colorScheme.secondary,
-      color: Colors.white,
-      child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: List.generate(
-              items.length,
-              (index) => IconButton(
-                  style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(
-                        kThemeDataDark.colorScheme.onSurface),
-                  ),
+    return SafeArea(
+      child: Container(
+        decoration: kAppBarDecoration, // add shadow
+        margin: kAppBarPadding,
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(30)),
+          child: BottomAppBar(
+            // shape: CircularNotchedRectangle(),
+            elevation: 4.0,
+            notchMargin: 5,
+            height: 70,
+            color: Theme.of(context).colorScheme.onBackground,
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(
+                items.length,
+                (index) => IconButton(
                   onPressed: items[index].onTap,
-                  icon: items[index].icon))),
+                  icon: items[index].icon,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

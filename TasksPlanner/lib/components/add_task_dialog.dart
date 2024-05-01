@@ -28,9 +28,39 @@ class AddTaskDialog extends StatelessWidget {
 
           List<TaskList> userLists = UserLists.fromQuerySnapshot(snapshot);
           List<DropdownMenuEntry> customDropdownEntries = userLists
-              .map((taskList) =>
-                  DropdownMenuEntry(value: taskList.id, label: taskList.name))
+              .map((taskList) => DropdownMenuEntry(
+                    value: taskList.id,
+                    label: taskList.name,
+                    style: kDropDownMenuItemStyle,
+                  ))
               .toList();
+
+          void menuSelectedCallBack(String value) {
+            selectedTaskList =
+                userLists.where((taskList) => taskList.id == value).first;
+          }
+
+          DropdownMenu taskListMenu = DropdownMenu(
+            requestFocusOnTap: true,
+            enableSearch: true,
+            textStyle: kBodyTextStyleDark,
+            menuStyle: const MenuStyle(alignment: Alignment.centerLeft),
+            initialSelection: selectedTaskList.id,
+            dropdownMenuEntries: customDropdownEntries,
+            onSelected: (value) {
+              menuSelectedCallBack(value);
+            },
+            leadingIcon: Icon(
+              Icons.search,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            width: MediaQuery.of(context).size.width * 0.7,
+            inputDecorationTheme: InputDecorationTheme(
+              hintStyle: kHintTextStyle,
+              border: kOutlineBorder,
+              focusedBorder: kOutlineBorder,
+            ),
+          );
 
           return Container(
             padding: const EdgeInsets.all(20.0),
@@ -47,30 +77,7 @@ class AddTaskDialog extends StatelessWidget {
                   child: Material(
                     elevation: 3,
                     borderRadius: BorderRadius.circular(30.0),
-                    child: DropdownMenu(
-                      requestFocusOnTap: true,
-                      enableSearch: true,
-                      menuStyle: const MenuStyle(alignment: Alignment.topLeft),
-                      initialSelection: selectedTaskList.id,
-                      dropdownMenuEntries: customDropdownEntries,
-                      onSelected: (value) {
-                        selectedTaskList = userLists
-                            .where((taskList) => taskList.id == value)
-                            .first;
-                      },
-                      leadingIcon: Icon(
-                        Icons.search,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      inputDecorationTheme: InputDecorationTheme(
-                        labelStyle: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        border: kOutlineBorder,
-                        focusedBorder: kOutlineBorder,
-                      ),
-                    ),
+                    child: taskListMenu,
                   ),
                 ),
                 kSpacing,
@@ -80,7 +87,7 @@ class AddTaskDialog extends StatelessWidget {
                   child: TextField(
                     autofocus: true,
                     textAlign: TextAlign.center,
-                    decoration: InputDecoration(hintText: 'To Do'),
+                    decoration: kInputDecoration(context, "To Do"),
                     onChanged: (input) {
                       newTask = Task(
                         listId: selectedTaskList.id,

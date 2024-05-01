@@ -1,7 +1,8 @@
 import 'package:TasksPlanner/components/search_dialog.dart';
+import 'package:TasksPlanner/navigation/nav_bar_item.dart';
+import 'package:TasksPlanner/navigation/navigation_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
 import '../models/list_service.dart';
 import '../components/text_input_dialog.dart';
 import '../screens/settings_screen.dart';
@@ -9,11 +10,14 @@ import '../tasks/tasks_screen.dart';
 import '../models/task_list.dart';
 import '../models/user_lists.dart';
 import '../utilities/constants.dart';
-import '../tasks/homepage_my_lists.dart';
+import '../tasks/homepage_task_lists.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = 'home_page';
+  final String? previousPageID;
+
+  HomePage({String this.previousPageID = "log_in"});
 
   @override
   State<HomePage> createState() => _HomePage();
@@ -34,7 +38,7 @@ class _HomePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     if (ListService().currentUser == null) {
-      return Scaffold(
+      return const Scaffold(
         body: Text("Please log in to view this page."),
       );
     }
@@ -49,97 +53,95 @@ class _HomePage extends State<HomePage> {
         List<TaskList> userLists = [];
         userLists = UserLists.fromQuerySnapshot(snapshot);
 
-        return Scaffold(
-          floatingActionButton: ElevatedButton(
-            style: kHomePageButtonStyleLight,
-            onPressed: () {
-              displayTextInputDialog(
-                context,
-                addTaskList,
-              );
-            },
-            child: const Text(
-              "Add List",
-              style: kBodyTextStyle,
-            ),
+        List<NavBarItem> navBarItems = [
+          NavBarItem(
+            icon: Icon(Icons.search),
+            onTap: () => {searchDialog(context, userLists)},
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.miniCenterDocked,
+          NavBarItem(
+              icon: Icon(Icons.format_list_bulleted_add),
+              onTap: () => displayTextInputDialog(
+                    context,
+                    addTaskList,
+                  )),
+          NavBarItem(
+            icon: Icon(Icons.settings),
+            onTap: () => Navigator.pushNamed(context, SettingsScreen.id),
+          ),
+        ];
+
+        Text welcomeText = Text(
+          widget.previousPageID == "log_in" ? "Welcome Back :)" : "Welcome!",
+          style: kHomePageHeaderTextStyle,
+        );
+
+        return Scaffold(
+          extendBody: true,
+          bottomNavigationBar: CustomNavigationBar(
+            items: navBarItems,
+          ),
           body: SafeArea(
             child: Center(
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const Padding(
-                      padding: EdgeInsets.all(20.0),
-                      child: Text(
-                        "Welcome Back.",
-                        style: kHomePageHeaderTextStyle,
-                      ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.07,
+                          vertical: MediaQuery.of(context).size.width * 0.035),
+                      child: welcomeText,
                     ),
-                    Center(
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        height: MediaQuery.of(context).size.width * 0.5,
-                        child: ElevatedButton(
-                          style: kHomePageButtonStyleDark,
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => TasksScreen()));
-                          },
-                          child: Stack(children: [
-                            Positioned(
-                                top: MediaQuery.of(context).size.width * 0.07,
-                                left: MediaQuery.of(context).size.width * 0.37,
-                                child: Image.asset('assets/clicking-post.png',
-                                    width: MediaQuery.of(context).size.width *
-                                        0.46)),
-                            Positioned(
-                              top: MediaQuery.of(context).size.width * 0.1,
-                              left: MediaQuery.of(context).size.width * 0.02,
-                              child: Text(
-                                style: TextStyle(
-                                    fontSize: 25.0,
-                                    fontFamily: 'fonts/Lato-Bold.ttf',
-                                    color: kThemeDataDark
-                                        .colorScheme.onSurfaceVariant),
-                                'Tasks\nCompleted',
-                              ),
-                            ),
-                            Positioned(
-                                bottom:
-                                    MediaQuery.of(context).size.height * 0.06,
-                                left: 0,
-                                child: LinearPercentIndicator(
-                                  barRadius: Radius.circular(2.0),
-                                  lineHeight: 7.0,
-                                  width:
-                                      MediaQuery.of(context).size.height * 0.14,
-                                  percent:
-                                      UserLists.taskDonePercentage(userLists),
-                                  backgroundColor: Color(0xff3B64F0),
-                                  progressColor: Colors.white,
-                                  trailing: Text(
-                                      UserLists.taskDoneFraction(userLists),
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'fonts/Lato-Bold.ttf',
-                                      )),
-                                ))
-                          ]),
+                    Container(
+                      // color: Colors.grey, // for debugging
+                      height: MediaQuery.of(context).size.width * 0.35,
+                      margin: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.06),
+                      child: Stack(children: [
+                        Positioned(
+                          top: MediaQuery.of(context).size.width * 0.025,
+                          left: MediaQuery.of(context).size.width * 0.73,
+                          child: IconButton(
+                            icon: Icon(Icons.arrow_outward_rounded),
+                            iconSize: MediaQuery.of(context).size.width * 0.1,
+                            color: kThemeDataDark.colorScheme.onSurface,
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TasksScreen()));
+                            },
+                          ),
                         ),
-                      ),
+                        Positioned(
+                          top: MediaQuery.of(context).size.width * 0.04,
+                          left: MediaQuery.of(context).size.width * 0.01,
+                          child: Text(
+                            style: TextStyle(
+                                fontSize: 28.0,
+                                fontWeight: FontWeight.bold,
+                                color: kThemeDataDark.colorScheme.onSurface),
+                            'Tasks Completed',
+                          ),
+                        ),
+                        Positioned(
+                            top: MediaQuery.of(context).size.width * 0.17,
+                            left: 0,
+                            child: LinearPercentIndicator(
+                              barRadius: Radius.circular(3.0),
+                              lineHeight: 8.0,
+                              width: MediaQuery.of(context).size.height * 0.14,
+                              percent: UserLists.taskDonePercentage(userLists),
+                              backgroundColor:
+                                  kThemeDataDark.colorScheme.onBackground,
+                              progressColor:
+                                  kThemeDataDark.colorScheme.onSurface,
+                              trailing: Text(
+                                  UserLists.taskDoneFraction(userLists),
+                                  style: kBodyTextStyleDark),
+                            ))
+                      ]),
                     ),
                     kSpacing,
-                    const Padding(
-                      padding: EdgeInsets.all(20.0),
-                      child: Text(
-                        "My Lists",
-                        style: kHomePageSubheaderTextStyle,
-                      ),
-                    ),
                     Expanded(
                       child: Center(
                         child: SizedBox(
@@ -147,24 +149,6 @@ class _HomePage extends State<HomePage> {
                             child: HomePageMyLists()),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 0, horizontal: 30),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          kCustomButton(
-                              context,
-                              () => searchDialog(context, userLists),
-                              const Icon(Icons.search)),
-                          kCustomButton(
-                              context,
-                              () => Navigator.pushNamed(
-                                  context, SettingsScreen.id),
-                              const Icon(Icons.settings))
-                        ],
-                      ),
-                    )
                   ]),
             ),
           ),

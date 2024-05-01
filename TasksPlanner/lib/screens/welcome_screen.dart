@@ -14,7 +14,7 @@ class _WelcomeScreen extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.onSurface,
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 25.0),
           child: Column(
@@ -55,13 +55,13 @@ class _WelcomeScreen extends State<WelcomeScreen> {
                       right: 0,
                       child: Center(
                         child: ElevatedButton(
-                          style: kHomePageButtonStyleLight,
+                          style: kElevatedButtonStyle,
                           onPressed: () {
                             Navigator.pushNamed(context, LoginScreen.id);
                           },
                           child: const Text(
                             "Get Started",
-                            style: kBodyTextStyle,
+                            style: kBodyTextStyleDark,
                           ),
                         ),
                       ),

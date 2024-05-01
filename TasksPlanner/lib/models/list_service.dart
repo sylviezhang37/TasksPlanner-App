@@ -123,6 +123,19 @@ class ListService {
     return docRef.id;
   }
 
+  Future<void> deleteTaskList(List<TaskList> userLists, String listID) async {
+    List<String> listIDs = userLists.map((list) => list.id).toList();
+    listIDs.remove(listID);
+    // print(listIDs);
+
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(currentUser!.uid)
+        .update({'lists': listIDs}).catchError((error) {
+      print("Error deleting list ID from user document: $error");
+    });
+  }
+
   /// update task status, and add/remove task
   void updateTaskListMetadata(TaskList taskList) async {
     Map<String, Map> metaData = taskList.transformToMetaData();

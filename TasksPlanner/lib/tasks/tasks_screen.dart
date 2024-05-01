@@ -1,4 +1,3 @@
-import 'package:TasksPlanner/components/popup_alert.dart';
 import 'package:TasksPlanner/components/search_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -25,10 +24,6 @@ class TasksScreen extends StatefulWidget {
 class _TasksScreenState extends State<TasksScreen> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
@@ -46,9 +41,10 @@ class _TasksScreenState extends State<TasksScreen> {
         TaskList? taskList;
         if (widget.listID != null) {
           taskList =
-              userLists.where((element) => element.id == widget.listID).first;
+              userLists.firstWhere((element) => element.id == widget.listID);
         }
 
+        // show input dialog for user to add task
         void userInputDialog(List<TaskList> userLists) {
           showModalBottomSheet(
             context: context,
@@ -100,12 +96,13 @@ class _TasksScreenState extends State<TasksScreen> {
         ];
 
         return Scaffold(
+          backgroundColor: Color(0xffE2F4A6),
           key: scaffoldKey,
-          //scaffold’s body visible through the bottom navigation bar’s notch
           extendBody: true,
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: FloatingActionButton(
+            backgroundColor: Theme.of(context).colorScheme.onSurface,
             shape: const CircleBorder(),
             onPressed: () {
               userInputDialog(userLists);
@@ -117,7 +114,7 @@ class _TasksScreenState extends State<TasksScreen> {
           ),
           body: Stack(
             children: <Widget>[
-              Center(
+              Container(
                 child: widget.listID != null
                     ? TasksListCard(
                         taskList: taskList!,
@@ -129,7 +126,6 @@ class _TasksScreenState extends State<TasksScreen> {
             ],
           ),
           drawer: MenuDrawer(
-            // selectedIndex: _selectedIndex,
             onItemTapped: _onItemTapped,
             addTaskListCallBack: addTaskList,
           ),

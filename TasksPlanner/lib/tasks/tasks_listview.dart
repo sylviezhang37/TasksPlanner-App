@@ -1,7 +1,6 @@
+import 'package:TasksPlanner/utilities/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:TasksPlanner/tasks/task_tile.dart';
 import 'package:flutter/material.dart';
-
 import '../models/list_service.dart';
 import '../models/task.dart';
 import '../models/task_list.dart';
@@ -29,39 +28,98 @@ class TasksListView extends StatelessWidget {
         List<TaskList> userLists = UserLists.fromQuerySnapshot(snapshot);
 
         if (taskList != null) {
-          print("taskList is not null");
           for (TaskList currentTaskList in userLists) {
             if (taskList!.id == currentTaskList.id) {
               tasks = currentTaskList.tasks;
             }
           }
         } else {
-          print("taskList is null");
           tasks = userLists.expand((taskList) => taskList.tasks).toList();
         }
 
-        return ListView.builder(
+        return ListView.separated(
+          itemCount: tasks.length,
+          separatorBuilder: (context, index) {
+            return kDottedLine;
+          },
           itemBuilder: (context, index) {
-            return TaskTile(
-              isChecked: tasks[index].done,
-              taskName: tasks[index].name,
-              checkBoxCallBack: (checkBoxState) async {
-                tasks[index].changeDone();
-                TaskList taskList = userLists.firstWhere((currentTaskList) =>
-                    tasks[index].listId == currentTaskList.id);
-                ListService().updateTaskListMetadata(taskList);
-              },
-              longPressDelete: () async {
+            // add a dotted line at the end
+            // if (index == tasks.length) {
+            //   return kDottedLine;
+            // }
+            return Dismissible(
+              key: Key(tasks[index].name),
+              onDismissed: (direction) async {
                 TaskList taskList = userLists.firstWhere((currentTaskList) =>
                     tasks[index].listId == currentTaskList.id);
                 taskList.remove(tasks[index]);
                 ListService().updateTaskListMetadata(taskList);
               },
+              // show a colored box as user swipes
+              background: Container(
+                  color: Theme.of(context).colorScheme.primaryContainer),
+              child: CustomListTile(
+                checked: tasks[index].done,
+                taskName: tasks[index].name,
+                checkBoxCallBack: (checkBoxState) async {
+                  tasks[index].changeDone();
+                  TaskList taskList = userLists.firstWhere((currentTaskList) =>
+                      tasks[index].listId == currentTaskList.id);
+                  ListService().updateTaskListMetadata(taskList);
+                },
+                longPressCallBack: () async {
+                  TaskList taskList = userLists.firstWhere((currentTaskList) =>
+                      tasks[index].listId == currentTaskList.id);
+                  taskList.remove(tasks[index]);
+                  ListService().updateTaskListMetadata(taskList);
+                },
+              ),
             );
           },
-          itemCount: tasks.length,
         );
       },
+    );
+  }
+}
+
+class CustomListTile extends StatelessWidget {
+  final bool checked;
+  final String taskName;
+  final Function(bool?) checkBoxCallBack;
+  final Function() longPressCallBack;
+
+  CustomListTile(
+      {required this.checked,
+      required this.taskName,
+      required this.checkBoxCallBack,
+      required this.longPressCallBack});
+
+  @override
+  Widget build(BuildContext context) {
+    final TextStyle taskListTileTextStyle = TextStyle(
+      fontSize: 20.0,
+      fontWeight: FontWeight.w500,
+      decoration: checked ? TextDecoration.lineThrough : null,
+      color:
+          checked ? Colors.grey[500] : Theme.of(context).colorScheme.onSurface,
+    );
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListTile(
+        title: Text(
+          taskName,
+          style: taskListTileTextStyle,
+        ),
+        onLongPress: longPressCallBack,
+        trailing: Checkbox(
+          side: BorderSide(
+              color: Theme.of(context).colorScheme.onSurface, width: 1.5),
+          activeColor: Theme.of(context).colorScheme.onSurface,
+          value: checked,
+          onChanged: checkBoxCallBack,
+        ),
+      ),
     );
   }
 }

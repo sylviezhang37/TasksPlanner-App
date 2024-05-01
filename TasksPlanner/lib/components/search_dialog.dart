@@ -33,7 +33,7 @@ Future<dynamic> searchDialog(
           // title: Text('Your Dialog Title'),
           content: SizedBox(
             width: double.maxFinite,
-            height: MediaQuery.of(context).size.width * 0.8,
+            height: MediaQuery.of(context).size.width * 0.85,
             child: Column(
               // mainAxisSize:
               //     MainAxisSize.min, // Use 'min' to fit the content size
@@ -44,13 +44,10 @@ Future<dynamic> searchDialog(
                   borderRadius: BorderRadius.circular(30),
                   child: TextField(
                     controller: textController,
-                    decoration: InputDecoration(
-                      fillColor: Theme.of(context).colorScheme.primary,
-                      prefixIcon: Icon(Icons.search,
+                    decoration: kMenuBoxDecoration(
+                      Icon(Icons.search,
                           color: Theme.of(context).colorScheme.primary),
-                      hintText: "search task",
-                      focusedBorder: kOutlineBorder,
-                      border: kOutlineBorder,
+                      "search task",
                     ),
                     onChanged: (value) {
                       textFieldOnChanged(value);
@@ -63,7 +60,10 @@ Future<dynamic> searchDialog(
                       itemCount: activeTasks.length,
                       itemBuilder: (BuildContext context, int index) {
                         return ListTile(
-                          title: Text(activeTasks[index].name),
+                          title: Text(
+                            activeTasks[index].name,
+                            style: kBodyTextStyleDark,
+                          ),
                           onTap: () {
                             textController.clear();
                             Navigator.push(
@@ -75,20 +75,10 @@ Future<dynamic> searchDialog(
                         );
                       }),
                 ),
+                kSpacing,
               ],
             ),
           ),
-          actions: <Widget>[
-            TextButton(
-                child: Text(
-                  'CANCEL',
-                  style: kdialogActionTextStyle,
-                ),
-                onPressed: () {
-                  textController.clear();
-                  Navigator.of(context).pop();
-                }),
-          ],
         );
       });
     },

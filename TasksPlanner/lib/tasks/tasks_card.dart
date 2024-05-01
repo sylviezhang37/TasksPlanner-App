@@ -6,62 +6,85 @@ import '../utilities/constants.dart';
 
 class TasksListCard extends StatelessWidget {
   TaskList? taskList;
-  late String taskListName;
-  late String taskListDoneFraction;
+  late String listName;
+  late String listDoneFraction;
 
   TasksListCard({
     super.key,
     required this.taskList,
   }) {
-    taskListName = taskList!.name;
-    taskListDoneFraction = taskList!.taskDoneFraction();
+    listName = taskList!.name;
+    listDoneFraction = taskList!.taskDoneFraction();
   }
 
   TasksListCard.forAllTaskLists({super.key, required userLists}) {
     {
-      taskListName = "All Tasks";
-      taskListDoneFraction = UserLists.taskDoneFraction(userLists);
+      listName = "All Tasks";
+      listDoneFraction = UserLists.taskDoneFraction(userLists);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              padding: kHeaderPadding,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const SizedBox(height: 40.0),
-                  Row(children: <Widget>[
-                    Text(
-                      taskListName,
-                      style: kHeaderTextStyle,
-                    ),
-                    kSpacing,
-                  ]),
-                  Text(
-                    '$taskListDoneFraction Completed',
-                    style: kBodyTextStyle,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          const SizedBox(height: 40.0),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(30, 30, 0, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(5, 0, 50, 0),
+                  child: Text(
+                    listName,
+                    style: kListHeaderTextStyleDark,
                   ),
-                ],
-              ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Text(
+                  //       listName,
+                  //       style: kListHeaderTextStyleDark,
+                  //     ),
+                  //     IconButton(
+                  //         onPressed: deleteCallBack,
+                  //         icon: Icon(Icons.delete_outline_rounded))
+                  //   ],
+                  // ),
+                ),
+                Card(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onBackground
+                      .withOpacity(.8),
+                  elevation: 0.5,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25)),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
+                    child: Text(
+                      '$listDoneFraction completed',
+                      style: kBodyTextStyleDark,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Expanded(
-              child: Container(
-                  padding: kTaskListCardPadding,
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.secondaryContainer,
-                      borderRadius: kTaskListCardRadius,
-                      boxShadow: kTaskListBoxShadow),
-                  child: taskList != null
-                      ? TasksListView(taskList: taskList)
-                      : TasksListView()),
+          ),
+          Expanded(
+            child: Padding(
+              padding: kTaskListTilePadding,
+              child: taskList != null
+                  ? TasksListView(taskList: taskList)
+                  : TasksListView(),
             ),
-          ]),
+          ),
+        ],
+      ),
     );
   }
 }

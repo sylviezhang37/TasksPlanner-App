@@ -1,4 +1,8 @@
+import 'dart:io';
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 ThemeData kThemeDataPurple = ThemeData(
   useMaterial3: true,
@@ -22,37 +26,41 @@ ThemeData kThemeDataPurple = ThemeData(
 
 ThemeData kThemeDataDark = ThemeData(
   useMaterial3: true,
-  fontFamily: 'Lato',
+  fontFamily: 'Rubik',
+  textTheme: GoogleFonts.rubikTextTheme(),
   colorScheme: const ColorScheme(
     brightness: Brightness.light,
-    primary: Color(0xff171E65), //text on buttons
+    primary: Color(0xff3E2848), //text on buttons
     onPrimary: Colors.white,
     secondary: Colors.white, //text input dialog
     onSecondary: Colors.white,
-    primaryContainer: Color(0xff171E65), //floating action button
-    secondaryContainer: Color(0xffE2CE0D), //tasks card
+    primaryContainer: Color(0xff5A4EEF), //floating action button
+    secondaryContainer: Color(0xffE2F4A6), //tasks card
     error: Colors.black,
     onError: Colors.white,
     background: Colors.white,
-    onBackground: Colors.white, //checked
-    // surface: Color(0xff0B3DEC),            //elevated buttons on background
+    onBackground: Color(0xffECE4F6), //checked
     surface: Colors.white, //elevated buttons on background
-    onSurface: Color(0xff171E65), //header and subheader
-    // onSurface: Colors.red, //header and subheader
-    surfaceVariant: Color(0xff0B3DEC),
-    onSurfaceVariant: Colors.white,
+    onSurface: Color(0xff3E2848), //header and subheader
+    surfaceVariant: Color(0xffB6E0FF),
+    onSurfaceVariant: Color(0xff3E2848),
   ),
 );
 
-// ThemeData kThemeDataPurple = ThemeData(
-//   useMaterial3: true,
-//   fontFamily: 'Lato',
-//   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurpleAccent)
-// );
+//0xff171E65 blue
+//0xffE2CE0D yellow
+
+/// Input Dialogs
+TextStyle kdialogTitleTextStyle =
+    kBodyTextStyleDark.copyWith(fontSize: 25, fontWeight: FontWeight.w500);
+
+TextStyle kdialogActionTextStyle =
+    kBodyTextStyleDark.copyWith(fontWeight: FontWeight.w500);
 
 InputDecoration kInputDecoration(BuildContext context, String hintText) =>
     InputDecoration(
       hintText: hintText,
+      hintStyle: kHintTextStyle,
       fillColor: Theme.of(context).colorScheme.primary,
       enabledBorder: UnderlineInputBorder(
         borderSide: BorderSide(
@@ -62,6 +70,27 @@ InputDecoration kInputDecoration(BuildContext context, String hintText) =>
       ),
     );
 
+InputDecoration kMenuBoxDecoration(Icon icon, String hinText) =>
+    InputDecoration(
+      fillColor: kThemeDataDark.colorScheme.primary,
+      prefixIcon: icon,
+      hintText: hinText,
+      hintStyle: kHintTextStyle,
+      focusedBorder: kOutlineBorder,
+      border: kOutlineBorder,
+    );
+
+TextStyle kHintTextStyle = TextStyle(
+  color: kThemeDataDark.colorScheme.primary.withOpacity(0.6),
+  fontSize: 18.0,
+  fontWeight: FontWeight.w400,
+);
+
+ButtonStyle kDropDownMenuItemStyle = ButtonStyle(
+    textStyle: MaterialStatePropertyAll(kHintTextStyle),
+    padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 30)));
+
+/// home page list cards
 List<BoxShadow> kTaskListBoxShadow = [
   BoxShadow(
     color: Colors.grey.withOpacity(0.5),
@@ -71,72 +100,155 @@ List<BoxShadow> kTaskListBoxShadow = [
   )
 ];
 
-const BorderRadiusGeometry kTaskListCardRadius = BorderRadius.only(
-    topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0));
-
 const EdgeInsetsGeometry kTaskListCardPadding =
-    EdgeInsets.symmetric(horizontal: 20.0);
+    EdgeInsets.only(top: 20, bottom: 50);
+
+const TextStyle kListHeaderTextStyleDark = TextStyle(
+  color: Color(0xff3E2848),
+  fontSize: 40.0,
+  fontWeight: FontWeight.w700,
+);
+
+Icon kListCardArrow = Icon(
+  Icons.keyboard_arrow_right_rounded,
+  size: 40,
+  color: kThemeDataDark.colorScheme.onSurface,
+);
+
+/// task screen list tiles
+const EdgeInsetsGeometry kTaskListTilePadding =
+    EdgeInsets.symmetric(horizontal: 20);
 
 const EdgeInsetsGeometry kHeaderPadding =
     EdgeInsets.only(top: 60.0, left: 30.0, right: 30.0, bottom: 30.0);
 
-const SizedBox kSpacing = SizedBox(
-  height: 10.0,
+/// floating app bar
+EdgeInsetsGeometry kAppBarPadding = EdgeInsets.only(
+  left: 16,
+  right: 16,
+  bottom: Platform.isAndroid ? 16 : 0,
 );
 
+Decoration kAppBarDecoration = BoxDecoration(
+  borderRadius: const BorderRadius.all(Radius.circular(30)),
+  boxShadow: [
+    BoxShadow(color: Colors.grey[500]!, spreadRadius: 0, blurRadius: 6)
+  ],
+);
+
+/// Welcome Screen
 TextStyle kWelcomeScreenTextStyle =
     kThemeDataDark.textTheme.bodyLarge!.copyWith(
   color: kThemeDataDark.colorScheme.onPrimary,
-  fontSize: 57.0,
-);
-
-const TextStyle kHeaderTextStyle = TextStyle(
-  fontSize: 50.0,
-  fontWeight: FontWeight.w700,
+  fontSize: 62.0,
 );
 
 const TextStyle kHomePageHeaderTextStyle = TextStyle(
-  fontSize: 30.0,
+  fontSize: 35.0,
   fontWeight: FontWeight.w700,
 );
 
 const TextStyle kHomePageSubheaderTextStyle = TextStyle(
-  fontSize: 22.0,
+  color: Color(0xff3E2848),
+  fontSize: 30.0,
   fontWeight: FontWeight.w500,
 );
 
-const TextStyle kBodyTextStyle = TextStyle(
-  fontSize: 18.0,
+const TextStyle kBodyTextStyleDark = TextStyle(
+  color: Color(0xff3E2848),
+  fontSize: 20.0,
   fontWeight: FontWeight.w400,
 );
 
-TextStyle kdialogActionTextStyle =
-    kBodyTextStyle.copyWith(fontWeight: FontWeight.w600);
+/// randomized home page widget colors
+enum ColorName { blue, yellow, lilac, pink }
 
-ButtonStyle kHomePageButtonStyleDark = ElevatedButton.styleFrom(
+int currentColorIndex = 0;
+
+final Map<ColorName, Color> colorMap = {
+  ColorName.blue: Color(0xffB6E0FF),
+  ColorName.pink: Color(0xffEEA0FF),
+  ColorName.lilac: Color(0xffC5C7FF),
+  ColorName.yellow: Color(0xffE2F4A6),
+};
+
+ButtonStyle kHomePageButtonStyleRandom(int index) {
+  currentColorIndex = index % 4;
+
+  ColorName currentColorName = ColorName.values[currentColorIndex];
+  Color color = colorMap[currentColorName]!;
+
+  return ElevatedButton.styleFrom(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15.0),
+    ),
+    backgroundColor: color,
+  );
+}
+
+ButtonStyle kElevatedButtonStyle = ElevatedButton.styleFrom(
+  backgroundColor: kThemeDataDark.colorScheme.onBackground.withOpacity(.8),
   shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(15.0),
   ),
-  backgroundColor: kThemeDataDark.colorScheme.surfaceVariant,
 );
 
-ButtonStyle kHomePageButtonStyleLight = ElevatedButton.styleFrom(
+ButtonStyle kButtonStyle = ElevatedButton.styleFrom(
+  backgroundColor: Colors.transparent,
+  elevation: 0,
   shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(15.0),
   ),
 );
 
-ElevatedButton kCustomButton(BuildContext context, Function() onPressed, Icon icon) =>
+ElevatedButton kCustomButton(
+        BuildContext context, Function() onPressed, Icon icon) =>
     ElevatedButton(
       style: ButtonStyle(elevation: MaterialStateProperty.all(0)),
       onPressed: onPressed,
       child: icon,
     );
 
-String kPopupTitle = "Oops!";
-
 OutlineInputBorder kOutlineBorder = OutlineInputBorder(
     borderSide: BorderSide(
       color: kThemeDataDark.colorScheme.onPrimary,
     ),
     borderRadius: BorderRadius.all(Radius.circular(30.0)));
+
+/// Menu Drawer
+const Divider kDivider = Divider(
+  height: 10,
+  thickness: 1,
+);
+
+/// Other
+String kPopupTitle = "Oops!";
+
+Decoration kNoteBookDecoration = BoxDecoration(
+  color: kThemeDataDark.colorScheme.surfaceVariant,
+  boxShadow: [
+    BoxShadow(color: Colors.grey[500]!, spreadRadius: 0, blurRadius: 6)
+  ],
+);
+
+const SizedBox kSpacing = SizedBox(
+  height: 10.0,
+);
+
+Widget kDottedLine = DottedLine(
+  direction: Axis.horizontal,
+  alignment: WrapAlignment.center,
+  lineLength: double.infinity,
+  lineThickness: 1.5,
+  dashLength: 10.0,
+  dashColor: Colors.black,
+  dashGradient: [Colors.black, Colors.grey],
+  dashGapLength: 8.0,
+  dashGapColor: Colors.transparent,
+);
+
+Icon kBackArrowLeft = Icon(
+  Icons.keyboard_arrow_left_rounded,
+  size: 60,
+  color: kThemeDataDark.colorScheme.onSurface,
+);

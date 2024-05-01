@@ -30,7 +30,12 @@ class _RegistrationState extends State<Registration> {
           email: email!, password: password!);
       if (newUser != Null) {
         ListService().newUserList(_auth.currentUser!.uid);
-        Navigator.pushNamed(context, HomePage.id);
+        // Navigator.pushNamed(context, HomePage.id);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    HomePage(previousPageID: 'registration_screen')));
       }
     } on FirebaseAuthException catch (e) {
       if (mounted) {
@@ -45,7 +50,9 @@ class _RegistrationState extends State<Registration> {
           default:
             break;
         }
-        popUpAlert(context, false, kPopupTitle, errorMessage, () {Navigator.of(context).pop();});
+        popUpAlert(context, false, kPopupTitle, errorMessage, () {
+          Navigator.of(context).pop();
+        });
       }
     } finally {
       if (mounted) {
@@ -65,7 +72,7 @@ class _RegistrationState extends State<Registration> {
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
+          padding: EdgeInsets.symmetric(horizontal: 35.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -79,44 +86,46 @@ class _RegistrationState extends State<Registration> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 35.0,
-              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                child: TextField(
-                  textAlign: TextAlign.center,
-                  controller: emailTextController,
-                  onChanged: (value) {
-                    email = value;
-                  },
-                  decoration: kInputDecoration(context, "email"),
+                child: Column(
+                  children: [
+                    TextField(
+                      textAlign: TextAlign.center,
+                      controller: emailTextController,
+                      onChanged: (value) {
+                        email = value;
+                      },
+                      decoration: kInputDecoration(context, "email"),
+                    ),
+                    const SizedBox(
+                      height: 8.0,
+                    ),
+                    TextField(
+                      obscureText: true,
+                      controller: passwordTextController,
+                      keyboardType: TextInputType.emailAddress,
+                      textAlign: TextAlign.center,
+                      onChanged: (value) {
+                        password = value;
+                      },
+                      decoration: kInputDecoration(context, "password"),
+                    ),
+                    const SizedBox(
+                      height: 35.0,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          register();
+                        },
+                        style: kElevatedButtonStyle,
+                        child: const Text(
+                          'Register',
+                          style: kBodyTextStyleDark,
+                        )),
+                  ],
                 ),
               ),
-              const SizedBox(
-                height: 8.0,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                child: TextField(
-                  obscureText: true,
-                  controller: passwordTextController,
-                  keyboardType: TextInputType.emailAddress,
-                  textAlign: TextAlign.center,
-                  onChanged: (value) {
-                    password = value;
-                  },
-                  decoration: kInputDecoration(context, "password"),
-                ),
-              ),
-              const SizedBox(
-                height: 24.0,
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    register();
-                  },
-                  child: Text('Register')),
             ],
           ),
         ),
