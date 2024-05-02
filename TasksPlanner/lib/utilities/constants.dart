@@ -33,8 +33,8 @@ ThemeData kThemeDataDark = ThemeData(
     primary: Color(0xff3E2848), //text on buttons
     onPrimary: Colors.white,
     secondary: Colors.white, //text input dialog
-    onSecondary: Colors.white,
-    primaryContainer: Color(0xff5A4EEF), //floating action button
+    onSecondary: Color(0xff171E65),
+    primaryContainer: Color(0xff5A4EEF), //dismissable background
     secondaryContainer: Color(0xffE2F4A6), //tasks card
     error: Colors.black,
     onError: Colors.white,
