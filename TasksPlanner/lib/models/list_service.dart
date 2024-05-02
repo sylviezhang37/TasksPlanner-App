@@ -126,13 +126,22 @@ class ListService {
   Future<void> deleteTaskList(List<TaskList> userLists, String listID) async {
     List<String> listIDs = userLists.map((list) => list.id).toList();
     listIDs.remove(listID);
-    // print(listIDs);
+    print(listIDs);
 
     await FirebaseFirestore.instance
         .collection('Users')
         .doc(currentUser!.uid)
         .update({'lists': listIDs}).catchError((error) {
       print("Error deleting list ID from user document: $error");
+    });
+  }
+
+  Future<void> changeListName(TaskList taskList, String listName) async {
+    await FirebaseFirestore.instance
+        .collection('Tasks')
+        .doc(taskList.id)
+        .update({'name': listName}).catchError((error) {
+      print("Error updating list name: $error");
     });
   }
 

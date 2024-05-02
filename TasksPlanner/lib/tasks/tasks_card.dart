@@ -1,5 +1,8 @@
+import 'package:TasksPlanner/components/text_input_dialog.dart';
+import 'package:TasksPlanner/models/list_service.dart';
 import 'package:TasksPlanner/tasks/tasks_listview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import '../models/task_list.dart';
 import '../models/user_lists.dart';
 import '../utilities/constants.dart';
@@ -24,6 +27,11 @@ class TasksListCard extends StatelessWidget {
     }
   }
 
+  void changeListName(BuildContext context, String listName) {
+    ListService().changeListName(taskList!, listName);
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -39,22 +47,30 @@ class TasksListCard extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.fromLTRB(5, 0, 50, 0),
-                  child: Text(
-                    listName,
-                    style: kListHeaderTextStyleDark,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          listName,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          softWrap: false,
+                          style: kListHeaderTextStyleDark,
+                        ),
+                      ),
+                      if (taskList != null)
+                        IconButton(
+                            onPressed: () {
+                              displayTextInputDialog(
+                                context,
+                                "List Name:",
+                                changeListName,
+                              );
+                            },
+                            icon: Icon(Icons.border_color_rounded))
+                    ],
                   ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     Text(
-                  //       listName,
-                  //       style: kListHeaderTextStyleDark,
-                  //     ),
-                  //     IconButton(
-                  //         onPressed: deleteCallBack,
-                  //         icon: Icon(Icons.delete_outline_rounded))
-                  //   ],
-                  // ),
                 ),
                 Card(
                   color: Theme.of(context)

@@ -67,12 +67,12 @@ class TasksListView extends StatelessWidget {
                       tasks[index].listId == currentTaskList.id);
                   ListService().updateTaskListMetadata(taskList);
                 },
-                longPressCallBack: () async {
-                  TaskList taskList = userLists.firstWhere((currentTaskList) =>
-                      tasks[index].listId == currentTaskList.id);
-                  taskList.remove(tasks[index]);
-                  ListService().updateTaskListMetadata(taskList);
-                },
+                // longPressCallBack: () async {
+                //   TaskList taskList = userLists.firstWhere((currentTaskList) =>
+                //       tasks[index].listId == currentTaskList.id);
+                //   taskList.remove(tasks[index]);
+                //   ListService().updateTaskListMetadata(taskList);
+                // },
               ),
             );
           },
@@ -86,13 +86,12 @@ class CustomListTile extends StatelessWidget {
   final bool checked;
   final String taskName;
   final Function(bool?) checkBoxCallBack;
-  final Function() longPressCallBack;
 
-  CustomListTile(
-      {required this.checked,
-      required this.taskName,
-      required this.checkBoxCallBack,
-      required this.longPressCallBack});
+  CustomListTile({
+    required this.checked,
+    required this.taskName,
+    required this.checkBoxCallBack,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +110,7 @@ class CustomListTile extends StatelessWidget {
           taskName,
           style: taskListTileTextStyle,
         ),
-        onLongPress: longPressCallBack,
+        // onLongPress: longPressCallBack,
         trailing: Checkbox(
           side: BorderSide(
               color: Theme.of(context).colorScheme.onSurface, width: 1.5),

@@ -62,6 +62,7 @@ class MenuDrawer extends StatelessWidget {
                   onPressed: () {
                     displayTextInputDialog(
                       context,
+                      "New List",
                       addTaskListCallBack,
                     );
                   },

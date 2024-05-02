@@ -5,14 +5,15 @@ TextEditingController _textFieldController = TextEditingController();
 
 Future<void> displayTextInputDialog(
   BuildContext context,
-  Function(BuildContext, String) addTaskListCallBack,
+  String title,
+  Function(BuildContext, String) onPressCallBack,
 ) async {
   return showDialog(
     context: context,
     builder: (context) {
       return AlertDialog(
         alignment: Alignment.center,
-        title: Text('Add New List:', style: kdialogTitleTextStyle),
+        title: Text(title, style: kdialogTitleTextStyle),
         content: TextField(
           autofocus: true,
           controller: _textFieldController,
@@ -29,7 +30,7 @@ Future<void> displayTextInputDialog(
             child: Text('OK', style: kdialogActionTextStyle),
             onPressed: () async {
               if (_textFieldController.text.isNotEmpty) {
-                await addTaskListCallBack(context, _textFieldController.text);
+                await onPressCallBack(context, _textFieldController.text);
                 _textFieldController.clear();
               } else {
                 Navigator.pop(context);

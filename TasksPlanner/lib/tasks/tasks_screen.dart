@@ -40,12 +40,17 @@ class _TasksScreenState extends State<TasksScreen> {
 
         TaskList? taskList;
         if (widget.listID != null) {
-          taskList =
-              userLists.firstWhere((element) => element.id == widget.listID);
+          try {
+            taskList =
+                userLists.firstWhere((element) => element.id == widget.listID);
+          } catch (e) {
+            // Log error or handle the fact that no task list was found
+            taskList = null;
+          }
         }
 
         // show input dialog for user to add task
-        void userInputDialog(List<TaskList> userLists) {
+        void bottomInputDialog(List<TaskList> userLists) {
           showModalBottomSheet(
             context: context,
             builder: (BuildContext context) => SingleChildScrollView(
@@ -105,7 +110,9 @@ class _TasksScreenState extends State<TasksScreen> {
             backgroundColor: Theme.of(context).colorScheme.onSurface,
             shape: const CircleBorder(),
             onPressed: () {
-              userInputDialog(userLists);
+              if (taskList != null) {
+                bottomInputDialog(userLists);
+              }
             },
             child: const Icon(Icons.add),
           ),
@@ -115,9 +122,9 @@ class _TasksScreenState extends State<TasksScreen> {
           body: Stack(
             children: <Widget>[
               Container(
-                child: widget.listID != null
+                child: widget.listID != null && taskList != null
                     ? TasksListCard(
-                        taskList: taskList!,
+                        taskList: taskList,
                       )
                     : TasksListCard.forAllTaskLists(
                         userLists: userLists,

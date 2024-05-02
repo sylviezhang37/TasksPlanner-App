@@ -62,6 +62,7 @@ class _HomePage extends State<HomePage> {
               icon: Icon(Icons.format_list_bulleted_add),
               onTap: () => displayTextInputDialog(
                     context,
+                    "New List:",
                     addTaskList,
                   )),
           NavBarItem(
