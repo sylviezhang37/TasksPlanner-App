@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../navigation/nav_bar_item.dart';
 import '../screens/settings_screen.dart';
-import '../screens/home_page.dart';
+import '../screens/home_screen.dart';
 import '../models/list_service.dart';
 import '../models/task_list.dart';
 import '../models/user_lists.dart';
@@ -31,9 +31,6 @@ class _TasksScreenState extends State<TasksScreen> {
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return const Text("Something went wrong.");
-        }
-        if (!snapshot.hasData) {
-          return const Center(child: CircularProgressIndicator());
         }
 
         List<TaskList> userLists = UserLists.fromQuerySnapshot(snapshot);

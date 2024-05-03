@@ -14,63 +14,63 @@ class _WelcomeScreen extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.onSecondary,
-      body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.1,
-              ),
-              Expanded(
-                child: Stack(
-                  children: <Widget>[
-                    Positioned(
-                      child: DefaultTextStyle(
-                        style: kWelcomeScreenTextStyle,
-                        child: AnimatedTextKit(
-                          animatedTexts: [
-                            TypewriterAnimatedText(
-                                'A simple list for your every day.')
-                          ],
-                          isRepeatingAnimation: false,
-                        ),
+      backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.07,
+          ),
+          Expanded(
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                  child: Padding(
+                    padding: const EdgeInsets.all(25),
+                    child: DefaultTextStyle(
+                      style: kWelcomeScreenTextStyle,
+                      child: AnimatedTextKit(
+                        animatedTexts: [
+                          TypewriterAnimatedText(
+                              'A simple list for your every day.')
+                        ],
+                        isRepeatingAnimation: false,
                       ),
                     ),
-                    Positioned(
-                      top: MediaQuery.of(context).size.height * 0.32,
-                      // centering the image
-                      left: 0,
-                      right: 0,
-                      child: Image.asset(
-                        'assets/girl-is-sitting-with-a-laptop-on-her-lap.png',
-                        width: 105,
-                      ),
-                    ),
-                    Positioned(
-                      top: MediaQuery.of(context).size.height * 0.75,
-                      left: 0,
-                      right: 0,
-                      child: Center(
-                        child: ElevatedButton(
-                          style: kElevatedButtonStyle,
-                          onPressed: () {
-                            Navigator.pushNamed(context, LoginScreen.id);
-                          },
-                          child: const Text(
-                            "Get Started",
-                            style: kBodyTextStyleDark,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ],
-          )),
+                Positioned(
+                  top: MediaQuery.of(context).size.height * 0.3,
+                  left: -(MediaQuery.of(context).size.width * 0.5) / 2,
+                  child: Image.asset(
+                    'assets/girl-with-phone-2.0.png',
+                    width: MediaQuery.of(context).size.height,
+                    // Removing 'height' to let the image maintain its aspect ratio
+                  ),
+                ),
+                Positioned(
+                  top: MediaQuery.of(context).size.height * 0.75,
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: ElevatedButton(
+                      style: kElevatedButtonStyle,
+                      onPressed: () {
+                        Navigator.pushNamed(context, LoginScreen.id);
+                      },
+                      child: const Text(
+                        "Get Started",
+                        style: kBodyTextStyleDark,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

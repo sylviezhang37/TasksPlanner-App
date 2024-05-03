@@ -1,9 +1,10 @@
-import 'package:TasksPlanner/screens/home_page.dart';
-import 'package:TasksPlanner/screens/welcome_screen.dart';
 import 'package:TasksPlanner/utilities/constants.dart';
+import 'package:TasksPlanner/screens/home_screen.dart';
+import 'package:TasksPlanner/screens/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'firebase_options.dart';
 import 'navigation/navigation.dart';
 
@@ -12,7 +13,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(MyApp());
 }
 
@@ -36,8 +40,7 @@ class MyApp extends StatelessWidget {
           }
           return const Scaffold(
             body: Center(
-              child:
-                  CircularProgressIndicator(), 
+              child: CircularProgressIndicator(),
             ),
           );
         },

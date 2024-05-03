@@ -14,7 +14,7 @@ class UserLists {
         .map((taskList) => taskList.numOfDone())
         .reduce((a, b) => a + b);
 
-    return "$totalDone / $totalLen";
+    return "$totalDone / $totalLen + ${userLists.length}";
   }
 
   static double taskDonePercentage(List<TaskList> userLists) {
@@ -40,10 +40,16 @@ class UserLists {
       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
     List<TaskList> userLists = [];
     if (snapshot.hasData) {
+       print('has data in async query snapshot}');
       for (var docSnapshot in snapshot.data!.docs) {
-        // print('${docSnapshot.id} => ${docSnapshot.data()}');
+        print(
+            'pulling from async query snapshot: ${docSnapshot.id} => ${docSnapshot.data()}');
         userLists.add(TaskList.fromQuerySnapshot(querySnapshot: docSnapshot));
       }
+    }
+
+    if (!snapshot.hasData) {
+      print('From async query snapshot: no data}');
     }
     return userLists;
   }

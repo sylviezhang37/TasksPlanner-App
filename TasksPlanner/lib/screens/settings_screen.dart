@@ -1,13 +1,11 @@
 import 'package:TasksPlanner/components/popup_alert.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../screens/welcome_screen.dart';
 import '../models/list_service.dart';
 import '../utilities/constants.dart';
 
 class SettingsScreen extends StatelessWidget {
   static const String id = 'settings_screen';
-  String _url = 'https://sites.google.com/view/oatsmoothie';
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +49,8 @@ class SettingsScreen extends StatelessWidget {
                   ],
                 ),
                 kDottedLine,
-                Image.asset('assets/clicking-post.png',
-                    width: MediaQuery.of(context).size.width * 0.5),
+                Image.asset('assets/round-nice-day.png',
+                    width: MediaQuery.of(context).size.width * 0.55),
                 const Text(
                   'Settings',
                   style: kHomePageHeaderTextStyle,
@@ -69,19 +67,18 @@ class SettingsScreen extends StatelessWidget {
                             'Sign Out',
                             style: kBodyTextStyleDark,
                           )),
-                      ElevatedButton(
-                          style: kElevatedButtonStyle,
+                      TextButton(
                           onPressed: deleteAccountOnPress,
-                          child: const Text(
+                          child: Text(
                             'Delete My Account',
-                            style: kBodyTextStyleDark,
+                            style: kHintTextStyleDark.copyWith(decoration: TextDecoration.underline),
                           )),
                     ],
                   ),
                 ),
                 Text(
                   '@oatsmoothie 2024',
-                  style: kHintTextStyle,
+                  style: kHintTextStyleDark,
                 ),
               ],
             ),

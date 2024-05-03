@@ -15,13 +15,17 @@ class HomePageMyLists extends StatefulWidget {
 }
 
 class _HomePageMyLists extends State<HomePageMyLists> {
-  void deleteList(
-          BuildContext context, List<TaskList> userLists, String taskListID) =>
-      popUpAlert(context, true, "Are you sure?",
-          "Click 'OK' to confirm the deletion, or 'CANCEL' to cancel.", () {
-        ListService().deleteTaskList(userLists, taskListID);
-        Navigator.pop(context);
-      });
+  void deleteList(List<TaskList> userLists, String taskListID) {
+    ListService().deleteTaskList(userLists, taskListID);
+  }
+
+  Future<bool?> confirmDismiss(DismissDirection direction) {
+    return popUpAlertConfirm(
+      context,
+      "Delete this list?",
+      "Click 'OK' to confirm, or 'CANCEL' to cancel.",
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +35,20 @@ class _HomePageMyLists extends State<HomePageMyLists> {
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (snapshot.hasData) {
+
           List<TaskList> userLists = UserLists.fromQuerySnapshot(snapshot);
+          print("hp_task_lists ${userLists.map((e) => e.id)}");
 
           return ListView.builder(
               itemCount: userLists.length,
               itemBuilder: (context, index) {
                 return Dismissible(
-                  key: Key(userLists[index].name),
+                  key: UniqueKey(),
                   onDismissed: (direction) async {
-                    deleteList(context, userLists, userLists[index].id);
+                    deleteList(userLists, userLists[index].id);
+                  },
+                  confirmDismiss: (DismissDirection direction) {
+                    return confirmDismiss(direction);
                   },
                   child: Align(
                       heightFactor: 0.6,
@@ -93,14 +102,28 @@ class _HomePageMyLists extends State<HomePageMyLists> {
                 );
               });
         } else {
-          return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  "You don't have a list yet.\nClick 'Add List' below to get started!",
-                  style: kBodyTextStyleDark.copyWith(fontSize: 15.0),
-                )
-              ]);
+          return Expanded(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.width * 0.3,
+                      ),
+                      Text(
+                        "You don't have a list yet.\nClick 'Add List' below to get started!",
+                        style: kBodyTextStyleDark.copyWith(fontSize: 15.0),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Icon(Icons.arrow_downward_rounded),
+                      ),
+                    ],
+                  )
+                ]),
+          );
         }
       },
     );

@@ -1,8 +1,8 @@
 name: TasksPlanner
-description: "A new Flutter project."
+description: "A simple to-do list app."
 publish_to: 'none' 
 
-version: 1.0.0+2
+version: 1.1.0
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -22,8 +22,6 @@ dependencies:
   async: ^2.11.0
   google_fonts: ^6.2.1
   dotted_line: ^3.2.2
-  dot_navigation_bar: ^1.0.2
-  url_launcher: ^6.2.6
 
 dev_dependencies:
   flutter_test:
@@ -37,19 +35,3 @@ flutter:
 
   assets:
     - assets/
-  
-  fonts:
-    - family: Lato
-      fonts:
-        - asset: fonts/Lato-Bold.ttf
-        - asset: fonts/Lato-Regular.ttf
-        - asset: fonts/Lato-Black.ttf 
-        - asset: fonts/Lato-BlackItalic.ttf 
-        - asset: fonts/Lato-Bold.ttf 
-        - asset: fonts/Lato-BoldItalic.ttf 
-        - asset: fonts/Lato-Italic.ttf 
-        - asset: fonts/Lato-Light.ttf 
-        - asset: fonts/Lato-LightItalic.ttf 
-        - asset: fonts/Lato-Regular.ttf 
-        - asset: fonts/Lato-Thin.ttf 
-        - asset: fonts/Lato-ThinItalic.ttf

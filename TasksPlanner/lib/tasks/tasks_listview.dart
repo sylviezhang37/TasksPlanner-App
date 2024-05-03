@@ -20,9 +20,9 @@ class TasksListView extends StatelessWidget {
         if (snapshot.hasError) {
           return const Text("Something went wrong.");
         }
-        if (!snapshot.hasData) {
-          return const Center(child: CircularProgressIndicator());
-        }
+        // if (!snapshot.hasData) {
+        //   return const Center(child: CircularProgressIndicator());
+        // }
 
         List<Task> tasks = [];
         List<TaskList> userLists = UserLists.fromQuerySnapshot(snapshot);
@@ -67,12 +67,6 @@ class TasksListView extends StatelessWidget {
                       tasks[index].listId == currentTaskList.id);
                   ListService().updateTaskListMetadata(taskList);
                 },
-                // longPressCallBack: () async {
-                //   TaskList taskList = userLists.firstWhere((currentTaskList) =>
-                //       tasks[index].listId == currentTaskList.id);
-                //   taskList.remove(tasks[index]);
-                //   ListService().updateTaskListMetadata(taskList);
-                // },
               ),
             );
           },

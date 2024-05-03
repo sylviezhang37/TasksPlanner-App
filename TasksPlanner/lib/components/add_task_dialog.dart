@@ -56,7 +56,7 @@ class AddTaskDialog extends StatelessWidget {
             ),
             width: MediaQuery.of(context).size.width * 0.7,
             inputDecorationTheme: InputDecorationTheme(
-              hintStyle: kHintTextStyle,
+              hintStyle: kHintTextStyleDark,
               border: kOutlineBorder,
               focusedBorder: kOutlineBorder,
             ),

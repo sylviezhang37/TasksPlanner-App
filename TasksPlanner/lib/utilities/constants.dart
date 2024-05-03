@@ -60,7 +60,7 @@ TextStyle kdialogActionTextStyle =
 InputDecoration kInputDecoration(BuildContext context, String hintText) =>
     InputDecoration(
       hintText: hintText,
-      hintStyle: kHintTextStyle,
+      hintStyle: kHintTextStyleDark,
       fillColor: Theme.of(context).colorScheme.primary,
       enabledBorder: UnderlineInputBorder(
         borderSide: BorderSide(
@@ -70,24 +70,45 @@ InputDecoration kInputDecoration(BuildContext context, String hintText) =>
       ),
     );
 
+InputDecoration kInputDecorationFilled(BuildContext context, String hintText) =>
+    InputDecoration(
+      filled: true,
+      hintText: hintText,
+      hintStyle: kHintTextStyleDark,
+      fillColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.6),
+      border: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(30)),
+        borderSide: BorderSide.none,
+      ),
+      // enabledBorder: UnderlineInputBorder(
+      //   borderRadius: BorderRadius.all(Radius.circular(30)),
+      //   borderSide: BorderSide(
+      //     color: Theme.of(context).colorScheme.primary,
+      //     width: 1.2,
+      //   ),
+      // ),
+    );
+
 InputDecoration kMenuBoxDecoration(Icon icon, String hinText) =>
     InputDecoration(
       fillColor: kThemeDataDark.colorScheme.primary,
       prefixIcon: icon,
       hintText: hinText,
-      hintStyle: kHintTextStyle,
+      hintStyle: kHintTextStyleDark,
       focusedBorder: kOutlineBorder,
       border: kOutlineBorder,
     );
 
-TextStyle kHintTextStyle = TextStyle(
+TextStyle kHintTextStyleDark = TextStyle(
   color: kThemeDataDark.colorScheme.primary.withOpacity(0.6),
   fontSize: 18.0,
   fontWeight: FontWeight.w400,
 );
 
+// TextStyle kHintTextStyleLight = kHintTextStyleDark.copyWith(color: kThemeDataDark.colorScheme.onPrimary);
+
 ButtonStyle kDropDownMenuItemStyle = ButtonStyle(
-    textStyle: MaterialStatePropertyAll(kHintTextStyle),
+    textStyle: MaterialStatePropertyAll(kHintTextStyleDark),
     padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 30)));
 
 /// home page list cards
@@ -134,12 +155,13 @@ Decoration kAppBarDecoration = BoxDecoration(
   boxShadow: [
     BoxShadow(color: Colors.grey[500]!, spreadRadius: 0, blurRadius: 6)
   ],
+  color: Colors.transparent,
 );
 
 /// Welcome Screen
 TextStyle kWelcomeScreenTextStyle =
     kThemeDataDark.textTheme.bodyLarge!.copyWith(
-  color: kThemeDataDark.colorScheme.onPrimary,
+  color: kThemeDataDark.colorScheme.primary,
   fontSize: 62.0,
 );
 
@@ -161,19 +183,20 @@ const TextStyle kBodyTextStyleDark = TextStyle(
 );
 
 /// randomized home page widget colors
-enum ColorName { blue, yellow, lilac, pink }
+enum ColorName { blue, orange, yellow, lilac, pink }
 
 int currentColorIndex = 0;
 
 final Map<ColorName, Color> colorMap = {
   ColorName.blue: Color(0xffB6E0FF),
+  ColorName.orange: Color(0xffFBD976),
   ColorName.pink: Color(0xffEEA0FF),
   ColorName.lilac: Color(0xffC5C7FF),
   ColorName.yellow: Color(0xffE2F4A6),
 };
 
 ButtonStyle kHomePageButtonStyleRandom(int index) {
-  currentColorIndex = index % 4;
+  currentColorIndex = index % 5;
 
   ColorName currentColorName = ColorName.values[currentColorIndex];
   Color color = colorMap[currentColorName]!;
@@ -189,7 +212,7 @@ ButtonStyle kHomePageButtonStyleRandom(int index) {
 ButtonStyle kElevatedButtonStyle = ElevatedButton.styleFrom(
   backgroundColor: kThemeDataDark.colorScheme.onBackground.withOpacity(.8),
   shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(15.0),
+    borderRadius: BorderRadius.circular(30.0),
   ),
 );
 
@@ -197,7 +220,7 @@ ButtonStyle kButtonStyle = ElevatedButton.styleFrom(
   backgroundColor: Colors.transparent,
   elevation: 0,
   shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(15.0),
+    borderRadius: BorderRadius.circular(30.0),
   ),
 );
 
@@ -224,13 +247,6 @@ const Divider kDivider = Divider(
 /// Other
 String kPopupTitle = "Oops!";
 
-Decoration kNoteBookDecoration = BoxDecoration(
-  color: kThemeDataDark.colorScheme.surfaceVariant,
-  boxShadow: [
-    BoxShadow(color: Colors.grey[500]!, spreadRadius: 0, blurRadius: 6)
-  ],
-);
-
 const SizedBox kSpacing = SizedBox(
   height: 10.0,
 );
@@ -247,8 +263,17 @@ Widget kDottedLine = DottedLine(
   dashGapColor: Colors.transparent,
 );
 
+IconButton CustomIconButton(Function()? onPressed, Icon icon) =>
+    IconButton(onPressed: onPressed, icon: icon);
+
 Icon kBackArrowLeft = Icon(
   Icons.keyboard_arrow_left_rounded,
   size: 60,
-  color: kThemeDataDark.colorScheme.onSurface,
+  color: kThemeDataDark.colorScheme.primary,
+);
+
+Icon kOutArrowRight = Icon(
+  Icons.arrow_outward_rounded,
+  size: 48,
+  color: kThemeDataDark.colorScheme.primary,
 );

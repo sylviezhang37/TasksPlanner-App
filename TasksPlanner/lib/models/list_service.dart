@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rxdart/rxdart.dart';
@@ -37,6 +39,9 @@ class ListService {
   }
 
   Stream<DocumentSnapshot<Map<String, dynamic>>> userLists() {
+    print("From ListService.userLists():");
+    printUserLists();
+
     return FirebaseFirestore.instance
         .collection('Users')
         .doc(currentUser!.uid)
@@ -58,33 +63,30 @@ class ListService {
 
   Stream<QuerySnapshot<Map<String, dynamic>>> allLists() {
     // use switchmap to subscribe to changes in currentUsersList()
-    return userLists().switchMap((userDocument) {
+    return userLists().flatMap((userDocument) {
       var data = userDocument.data();
+      print("From ListService.allList(): $data");
       List<String> listIds = data != null && data['lists'] != null
           ? List<String>.from(data['lists'])
           : [];
 
+      // handling empty lists, firestore 'whereIn' query cannot be empty
       if (listIds.isEmpty) {
-        return const Stream<QuerySnapshot<Map<String, dynamic>>>.empty();
+        listIds = ["-"];
       }
 
-      // Create a stream group to merge streams of QuerySnapshots from each list ID
-      StreamGroup<QuerySnapshot<Map<String, dynamic>>> streamGroup =
-          StreamGroup();
-      for (var listId in listIds) {
-        var stream = FirebaseFirestore.instance
-            .collection('Tasks')
-            .where(FieldPath.documentId, whereIn: listIds)
-            .orderBy('createdAt')
-            .snapshots();
-        streamGroup.add(stream);
-      }
-
-      return streamGroup.stream;
+      return FirebaseFirestore.instance
+          .collection('Tasks')
+          .where(FieldPath.documentId, whereIn: listIds)
+          .orderBy('createdAt')
+          .snapshots();
+    }).handleError((error) {
+      print("Error handling stream: $error");
+      return Stream.empty();
     });
   }
 
-  // methods for modifying user data
+  /// methods for modifying user data
 
   void newUserList(String uid) async {
     // await FirebaseFirestore.instance.collection('Tasks').doc().set({});
@@ -126,7 +128,7 @@ class ListService {
   Future<void> deleteTaskList(List<TaskList> userLists, String listID) async {
     List<String> listIDs = userLists.map((list) => list.id).toList();
     listIDs.remove(listID);
-    print(listIDs);
+    print("Deleted tasks, new listIDs ${listIDs}");
 
     await FirebaseFirestore.instance
         .collection('Users')
@@ -134,6 +136,8 @@ class ListService {
         .update({'lists': listIDs}).catchError((error) {
       print("Error deleting list ID from user document: $error");
     });
+
+    await printUserLists();
   }
 
   Future<void> changeListName(TaskList taskList, String listName) async {
@@ -153,5 +157,29 @@ class ListService {
         .collection('Tasks')
         .doc(taskList.id)
         .update({'taskMetaData': metaData});
+  }
+
+  Future<void> printUserLists() async {
+    try {
+      User? currentUser = FirebaseAuth.instance.currentUser;
+
+      if (currentUser != null) {
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance
+            .collection('Users')
+            .doc(currentUser.uid)
+            .get();
+
+        if (userDoc.exists) {
+          var lists = userDoc.get('lists');
+          print("Printing from Firestore ${lists}");
+        } else {
+          print('Printing from Firestore: document does not exist.');
+        }
+      } else {
+        print('Printing from Firestore: no user logged in.');
+      }
+    } catch (e) {
+      print('Error fetching user lists from Firestore: $e');
+    }
   }
 }

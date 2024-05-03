@@ -24,16 +24,47 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
+  late Text welcomeText;
+
   @override
   void initState() {
     super.initState();
+    welcomeText = Text(
+      widget.previousPageID == "log_in" ? "Welcome Back :)" : "Welcome!",
+      style: kHomePageHeaderTextStyle,
+    );
   }
+
+  List<NavBarItem> navBarItems(
+          BuildContext context, List<TaskList> userLists) =>
+      [
+        NavBarItem(
+          icon: Icon(Icons.search),
+          onTap: () => {searchDialog(context, userLists)},
+        ),
+        NavBarItem(
+            icon: Icon(Icons.format_list_bulleted_add),
+            onTap: () => displayTextInputDialog(
+                  context,
+                  "New List:",
+                  addTaskList,
+                )),
+        NavBarItem(
+          icon: Icon(Icons.settings),
+          onTap: () => Navigator.pushNamed(context, SettingsScreen.id),
+        ),
+      ];
 
   void addTaskList(BuildContext context, String taskListName) async {
     String listID = await ListService().addTaskList(taskListName);
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => TasksScreen(listID: listID)));
   }
+
+  IconButton topRightArrowButton() => CustomIconButton(
+      () => Navigator.push(
+          context, MaterialPageRoute(builder: (context) => TasksScreen())),
+      kOutArrowRight);
 
   @override
   Widget build(BuildContext context) {
@@ -44,48 +75,35 @@ class _HomePage extends State<HomePage> {
     }
 
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-      stream: ListService().allLists(),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return const Text("Something went wrong.");
-        }
+        stream: ListService().allLists(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.active ||
+              snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
+              return Scaffold(
+                body: Center(
+                  child: Text("Error: ${snapshot.error}"),
+                ),
+              );
+            }
+          }
 
-        List<TaskList> userLists = [];
-        userLists = UserLists.fromQuerySnapshot(snapshot);
+          List<TaskList> userLists = UserLists.fromQuerySnapshot(snapshot);
+          print(
+              "From home page, ${userLists}; userList is empty: ${userLists.isEmpty}");
 
-        List<NavBarItem> navBarItems = [
-          NavBarItem(
-            icon: Icon(Icons.search),
-            onTap: () => {searchDialog(context, userLists)},
-          ),
-          NavBarItem(
-              icon: Icon(Icons.format_list_bulleted_add),
-              onTap: () => displayTextInputDialog(
-                    context,
-                    "New List:",
-                    addTaskList,
-                  )),
-          NavBarItem(
-            icon: Icon(Icons.settings),
-            onTap: () => Navigator.pushNamed(context, SettingsScreen.id),
-          ),
-        ];
-
-        Text welcomeText = Text(
-          widget.previousPageID == "log_in" ? "Welcome Back :)" : "Welcome!",
-          style: kHomePageHeaderTextStyle,
-        );
-
-        return Scaffold(
-          extendBody: true,
-          bottomNavigationBar: CustomNavigationBar(
-            items: navBarItems,
-          ),
-          body: SafeArea(
-            child: Center(
+          return Scaffold(
+            extendBody: true,
+            bottomNavigationBar: CustomNavigationBar(
+              items: navBarItems(context, userLists),
+            ),
+            body: Center(
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    const SizedBox(
+                      height: kToolbarHeight,
+                    ),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.07,
@@ -94,25 +112,16 @@ class _HomePage extends State<HomePage> {
                     ),
                     Container(
                       // color: Colors.grey, // for debugging
-                      height: MediaQuery.of(context).size.width * 0.35,
+                      height: MediaQuery.of(context).size.width * 0.3,
                       margin: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.06),
                       child: Stack(children: [
-                        Positioned(
-                          top: MediaQuery.of(context).size.width * 0.025,
-                          left: MediaQuery.of(context).size.width * 0.73,
-                          child: IconButton(
-                            icon: Icon(Icons.arrow_outward_rounded),
-                            iconSize: MediaQuery.of(context).size.width * 0.1,
-                            color: kThemeDataDark.colorScheme.onSurface,
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => TasksScreen()));
-                            },
+                        if (!userLists.isEmpty)
+                          Positioned(
+                            top: MediaQuery.of(context).size.width * 0.025,
+                            left: MediaQuery.of(context).size.width * 0.73,
+                            child: topRightArrowButton(),
                           ),
-                        ),
                         Positioned(
                           top: MediaQuery.of(context).size.width * 0.04,
                           left: MediaQuery.of(context).size.width * 0.01,
@@ -142,7 +151,6 @@ class _HomePage extends State<HomePage> {
                             ))
                       ]),
                     ),
-                    kSpacing,
                     Expanded(
                       child: Center(
                         child: SizedBox(
@@ -152,9 +160,7 @@ class _HomePage extends State<HomePage> {
                     ),
                   ]),
             ),
-          ),
-        );
-      },
-    );
+          );
+        });
   }
 }

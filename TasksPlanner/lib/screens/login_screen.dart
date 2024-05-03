@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../components/popup_alert.dart';
-import '../screens/home_page.dart';
+import '../screens/home_screen.dart';
 import '../screens/registration_screen.dart';
 import '../utilities/constants.dart';
 
@@ -69,86 +70,115 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // return StreamBuilder<User?>(
-    //     stream: FirebaseAuth.instance.authStateChanges(),
-    //     builder: (context, snapshot) {
     return Scaffold(
-      appBar: AppBar(),
-      body: SafeArea(
-        child: ModalProgressHUD(
-          inAsyncCall: showSpinner,
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 35.0, vertical: 35.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Flexible(
-                  child: Hero(
-                    tag: 'smiling-man',
+      resizeToAvoidBottomInset: true,
+      body: ModalProgressHUD(
+        inAsyncCall: showSpinner,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Stack(
+                clipBehavior: Clip.hardEdge,
+                children: [
+                  Positioned(
+                    left: MediaQuery.of(context).size.width * 0.1,
+                    top: MediaQuery.of(context).size.width * 0.4,
                     child: Container(
-                      height: 230.0,
-                      child: Image.asset(
-                          'assets/matey-smiling-man-sitting-at-the-table-and-waving-her-hand.png'),
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      height: MediaQuery.of(context).size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surfaceVariant,
+                        borderRadius: BorderRadius.all(Radius.circular(
+                            MediaQuery.of(context).size.width * 0.4)),
+                      ),
+                      child: OverflowBox(
+                        minWidth: 0.0,
+                        minHeight: 0.0,
+                        maxWidth: MediaQuery.of(context).size.width,
+                        maxHeight: MediaQuery.of(context).size.height * 0.7,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/man-with-phone-2.0.png',
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              fit: BoxFit.cover,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(30.0),
-                  child: Column(
-                    children: [
-                      TextField(
-                        controller: emailTextController,
-                        keyboardType: TextInputType.emailAddress,
-                        textAlign: TextAlign.center,
-                        onChanged: (value) {
-                          email = value;
-                        },
-                        decoration: kInputDecoration(context, "email"),
-                      ),
-                      const SizedBox(
-                        height: 8.0,
-                      ),
-                      TextField(
-                        controller: passwordTextController,
-                        obscureText: true,
-                        textAlign: TextAlign.center,
-                        onChanged: (value) {
-                          password = value;
-                        },
-                        decoration: kInputDecoration(context, "password"),
-                      ),
-                      const SizedBox(height: 35.0),
-                      ElevatedButton(
-                        onPressed: () {
-                          signIn();
-                        },
-                        style: kElevatedButtonStyle,
-                        child: const Text(
-                          "Log In",
-                          style: kBodyTextStyleDark,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, Registration.id);
-                        },
-                        child: Text(
-                          'Register',
-                          style: kHintTextStyle,
-                        ),
-                      ),
-                    ],
+                  Positioned(
+                    top: MediaQuery.of(context).size.width * 0.25,
+                    child: CustomIconButton(
+                      () => Navigator.pop(context),
+                      kBackArrowLeft,
+                    ),
                   ),
-                ),
-              ],
-            ),
+                  Positioned(
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(50.0,
+                          MediaQuery.of(context).size.height * 0.38, 50, 50),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.2),
+                          TextField(
+                            controller: emailTextController,
+                            keyboardType: TextInputType.emailAddress,
+                            textAlign: TextAlign.center,
+                            onChanged: (value) {
+                              email = value;
+                            },
+                            decoration:
+                                kInputDecorationFilled(context, "email"),
+                          ),
+                          const SizedBox(height: 8.0),
+                          TextField(
+                            controller: passwordTextController,
+                            obscureText: true,
+                            textAlign: TextAlign.center,
+                            onChanged: (value) {
+                              password = value;
+                            },
+                            decoration:
+                                kInputDecorationFilled(context, "password"),
+                          ),
+                          const SizedBox(height: 30.0),
+                          ElevatedButton(
+                            onPressed: () {
+                              signIn();
+                            },
+                            style: kElevatedButtonStyle,
+                            child: const Text(
+                              "Log In",
+                              style: kBodyTextStyleDark,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, Registration.id);
+                            },
+                            child: Text(
+                              'Register',
+                              style: kHintTextStyleDark,
+                            ),
+                          ),
+                          SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.1),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
     );
-    // }
-    // );
   }
 }
