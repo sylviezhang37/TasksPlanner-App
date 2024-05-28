@@ -1,10 +1,11 @@
 plugins {
     id "com.android.application"
     // START: FlutterFire Configuration
-    id 'com.google.gms.google-services'
     // END: FlutterFire Configuration
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
+    id 'com.google.gms.google-services'
+
 }
 
 def localProperties = new Properties()
@@ -26,7 +27,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.oatsmoothie.apps.dobee"
+    namespace "com.oatsmoothie.apps.TasksPlanner"
     compileSdk flutter.compileSdkVersion
     ndkVersion "25.1.8937393"
 
@@ -45,7 +46,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.oatsmoothie.apps.dobee"
+        applicationId "com.oatsmoothie.apps.TasksPlanner"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion flutter.minSdkVersion

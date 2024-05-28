@@ -39,8 +39,8 @@ class ListService {
   }
 
   Stream<DocumentSnapshot<Map<String, dynamic>>> userLists() {
-    print("From ListService.userLists():");
-    printUserLists();
+    // print("From ListService.userLists():");
+    // printUserLists();
 
     return FirebaseFirestore.instance
         .collection('Users')

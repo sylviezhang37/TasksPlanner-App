@@ -14,7 +14,7 @@ class UserLists {
         .map((taskList) => taskList.numOfDone())
         .reduce((a, b) => a + b);
 
-    return "$totalDone / $totalLen + ${userLists.length}";
+    return "$totalDone / $totalLen";
   }
 
   static double taskDonePercentage(List<TaskList> userLists) {

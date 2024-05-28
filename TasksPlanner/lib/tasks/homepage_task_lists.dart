@@ -27,6 +27,27 @@ class _HomePageMyLists extends State<HomePageMyLists> {
     );
   }
 
+  Widget emptyUserListsView() => Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Column(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.3,
+                ),
+                Text(
+                  "You don't have a list yet.\nClick 'Add List' below to get started!",
+                  style: kBodyTextStyleDark.copyWith(fontSize: 15.0),
+                ),
+                const Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Icon(Icons.arrow_downward_rounded),
+                ),
+              ],
+            )
+          ]);
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
@@ -35,96 +56,77 @@ class _HomePageMyLists extends State<HomePageMyLists> {
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (snapshot.hasData) {
-
           List<TaskList> userLists = UserLists.fromQuerySnapshot(snapshot);
-          print("hp_task_lists ${userLists.map((e) => e.id)}");
 
-          return ListView.builder(
-              itemCount: userLists.length,
-              itemBuilder: (context, index) {
-                return Dismissible(
-                  key: UniqueKey(),
-                  onDismissed: (direction) async {
-                    deleteList(userLists, userLists[index].id);
-                  },
-                  confirmDismiss: (DismissDirection direction) {
-                    return confirmDismiss(direction);
-                  },
-                  child: Align(
-                      heightFactor: 0.6,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(30)),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey[500]!,
-                                spreadRadius: 0,
-                                blurRadius: 4)
-                          ],
-                        ),
-                        child: ElevatedButton(
-                          style: kHomePageButtonStyleRandom(index),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => TasksScreen(
-                                          listID: userLists[index].id,
-                                        )));
-                          },
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                // This expands the inner row that contains text and icon.
-                                child: Container(
-                                  margin: kTaskListCardPadding,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        userLists[index].name,
-                                        style: kHomePageSubheaderTextStyle,
-                                      ),
-                                      kListCardArrow,
-                                    ],
-                                  ),
-                                ),
-                              ),
+          if (userLists.isEmpty) {
+            return emptyUserListsView();
+          } else {
+            return ListView.builder(
+                itemCount: userLists.length,
+                itemBuilder: (context, index) {
+                  return Dismissible(
+                    key: UniqueKey(),
+                    onDismissed: (direction) async {
+                      deleteList(userLists, userLists[index].id);
+                    },
+                    confirmDismiss: (DismissDirection direction) {
+                      return confirmDismiss(direction);
+                    },
+                    child: Align(
+                        heightFactor: 0.6,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(30)),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey[500]!,
+                                  spreadRadius: 0,
+                                  blurRadius: 4)
                             ],
                           ),
-                        ),
-                      )),
-                );
-              });
-        } else {
-          return Expanded(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.width * 0.3,
-                      ),
-                      Text(
-                        "You don't have a list yet.\nClick 'Add List' below to get started!",
-                        style: kBodyTextStyleDark.copyWith(fontSize: 15.0),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Icon(Icons.arrow_downward_rounded),
-                      ),
-                    ],
-                  )
-                ]),
-          );
+                          child: ElevatedButton(
+                            style: kHomePageButtonStyleRandom(index),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TasksScreen(
+                                            listID: userLists[index].id,
+                                          )));
+                            },
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  // This expands the inner row that contains text and icon.
+                                  child: Container(
+                                    margin: kTaskListCardPadding,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          userLists[index].name,
+                                          style: kHomePageSubheaderTextStyle,
+                                        ),
+                                        kListCardArrow,
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )),
+                  );
+                });
+          }
         }
+        return emptyUserListsView();
       },
     );
   }

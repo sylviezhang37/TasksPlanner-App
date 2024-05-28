@@ -1,4 +1,4 @@
-package com.oatsmoothie.apps.dobee
+package com.oatsmoothie.apps.TasksPlanner
 
 import io.flutter.embedding.android.FlutterActivity
 
