@@ -9,7 +9,7 @@ final TextEditingController textController = TextEditingController();
 
 Future<dynamic> searchDialog(
     BuildContext context, List<TaskList> userLists) async {
-  List<Task> allTasks = userLists.expand((list) => list.tasks).toList();
+  List<Task> allTasks = userLists.expand((list) => list.tasks.toList()).toList();
   List<Task> activeTasks = allTasks;
 
   return showDialog(

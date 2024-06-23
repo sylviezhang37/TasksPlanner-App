@@ -1,7 +1,7 @@
 import 'package:TasksPlanner/utilities/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../models/list_service.dart';
+import '../models/firestore_service.dart';
 import '../components/text_input_dialog.dart';
 import '../models/task_list.dart';
 import '../models/user_lists.dart';
@@ -24,7 +24,7 @@ class MenuDrawer extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
 
-        List<TaskList> userLists = UserLists.fromQuerySnapshot(snapshot);
+        List<TaskList> userLists = UserLists.getQuerySnapshot(snapshot);
 
         return Drawer(
           child: Column(

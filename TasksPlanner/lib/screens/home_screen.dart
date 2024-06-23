@@ -3,7 +3,7 @@ import 'package:TasksPlanner/navigation/nav_bar_item.dart';
 import 'package:TasksPlanner/navigation/navigation_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../models/list_service.dart';
+import '../models/firestore_service.dart';
 import '../components/text_input_dialog.dart';
 import '../screens/settings_screen.dart';
 import '../tasks/tasks_screen.dart';
@@ -88,9 +88,9 @@ class _HomePage extends State<HomePage> {
             }
           }
 
-          List<TaskList> userLists = UserLists.fromQuerySnapshot(snapshot);
-          print(
-              "From home page, ${userLists}; userList is empty: ${userLists.isEmpty}");
+          List<TaskList> userLists = UserLists.getQuerySnapshot(snapshot);
+          // print(
+          //     "From home screen, ${userLists}; userList is empty: ${userLists.isEmpty}");
 
           return Scaffold(
             extendBody: true,
@@ -140,13 +140,13 @@ class _HomePage extends State<HomePage> {
                               barRadius: Radius.circular(3.0),
                               lineHeight: 8.0,
                               width: MediaQuery.of(context).size.height * 0.14,
-                              percent: UserLists.taskDonePercentage(userLists),
+                              percent: UserLists.completionPercentage(userLists),
                               backgroundColor:
                                   kThemeDataDark.colorScheme.onBackground,
                               progressColor:
                                   kThemeDataDark.colorScheme.onSurface,
                               trailing: Text(
-                                  UserLists.taskDoneFraction(userLists),
+                                  UserLists.completionFraction(userLists),
                                   style: kBodyTextStyleDark),
                             ))
                       ]),

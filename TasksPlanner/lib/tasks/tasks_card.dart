@@ -1,5 +1,5 @@
 import 'package:TasksPlanner/components/text_input_dialog.dart';
-import 'package:TasksPlanner/models/list_service.dart';
+import 'package:TasksPlanner/models/firestore_service.dart';
 import 'package:TasksPlanner/tasks/tasks_listview.dart';
 import 'package:flutter/material.dart';
 import '../models/task_list.dart';
@@ -16,13 +16,13 @@ class TasksListCard extends StatelessWidget {
     required this.taskList,
   }) {
     listName = taskList!.name;
-    listDoneFraction = taskList!.taskDoneFraction();
+    listDoneFraction = taskList!.completionFraction();
   }
 
   TasksListCard.forAllTaskLists({super.key, required userLists}) {
     {
       listName = "All Tasks";
-      listDoneFraction = UserLists.taskDoneFraction(userLists);
+      listDoneFraction = UserLists.completionFraction(userLists);
     }
   }
 

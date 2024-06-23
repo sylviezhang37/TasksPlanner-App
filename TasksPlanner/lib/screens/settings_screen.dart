@@ -1,7 +1,7 @@
 import 'package:TasksPlanner/components/popup_alert.dart';
 import 'package:flutter/material.dart';
 import '../screens/welcome_screen.dart';
-import '../models/list_service.dart';
+import '../models/firestore_service.dart';
 import '../utilities/constants.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -71,7 +71,7 @@ class SettingsScreen extends StatelessWidget {
                           onPressed: deleteAccountOnPress,
                           child: Text(
                             'Delete My Account',
-                            style: kHintTextStyleDark.copyWith(decoration: TextDecoration.underline),
+                            style: kHintTextStyleMini,
                           )),
                     ],
                   ),

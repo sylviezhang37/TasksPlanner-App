@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../models/list_service.dart';
+import '../models/firestore_service.dart';
 import '../models/task.dart';
 import '../models/task_list.dart';
 import '../models/user_lists.dart';
@@ -11,6 +11,14 @@ class AddTaskDialog extends StatelessWidget {
   TaskList selectedTaskList;
 
   AddTaskDialog({super.key, required this.selectedTaskList});
+
+  void confirmAdd(Task task, BuildContext context) {
+    if (task != null) {
+      selectedTaskList.addTask(task!);
+      ListService().updateTaskListMetadata(selectedTaskList);
+    }
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +34,7 @@ class AddTaskDialog extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
 
-          List<TaskList> userLists = UserLists.fromQuerySnapshot(snapshot);
+          List<TaskList> userLists = UserLists.getQuerySnapshot(snapshot);
           List<DropdownMenuEntry> customDropdownEntries = userLists
               .map((taskList) => DropdownMenuEntry(
                     value: taskList.id,
@@ -85,16 +93,19 @@ class AddTaskDialog extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 50),
                   child: TextField(
-                    autofocus: true,
-                    textAlign: TextAlign.center,
-                    decoration: kInputDecoration(context, "To Do"),
-                    onChanged: (input) {
-                      newTask = Task(
-                        listId: selectedTaskList.id,
-                        name: input,
-                      );
-                    },
-                  ),
+                      autofocus: true,
+                      textAlign: TextAlign.center,
+                      decoration: kInputDecoration(context, "To Do"),
+                      onChanged: (input) {
+                        newTask = Task(
+                          listId: selectedTaskList.id,
+                          name: input,
+                          lastUpdated: Timestamp.now(),
+                        );
+                      },
+                      onEditingComplete: () {
+                        confirmAdd(newTask!, context);
+                      }),
                 ),
                 kSpacing,
                 Row(
@@ -120,12 +131,13 @@ class AddTaskDialog extends StatelessWidget {
                           style: kdialogActionTextStyle,
                         ),
                         onPressed: () {
-                          if (newTask != null) {
-                            selectedTaskList.addTask(newTask!);
-                            ListService()
-                                .updateTaskListMetadata(selectedTaskList);
-                          }
-                          Navigator.pop(context);
+                          confirmAdd(newTask!, context);
+                          // if (newTask != null) {
+                          //   selectedTaskList.addTask(newTask!);
+                          //   ListService()
+                          //       .updateTaskListMetadata(selectedTaskList);
+                          // }
+                          // Navigator.pop(context);
                         },
                       ),
                     ),

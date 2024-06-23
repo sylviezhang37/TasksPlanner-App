@@ -4,11 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rxdart/rxdart.dart';
 import '../models/task_list.dart';
-import 'package:async/async.dart';
 
 class ListService {
   final _auth = FirebaseAuth.instance;
-
   User? get currentUser => _auth.currentUser;
 
   void signOut() async {
@@ -25,20 +23,21 @@ class ListService {
     }
   }
 
-  // methods for retrieving data
-
-  Stream<QuerySnapshot<Map<String, dynamic>>> allUsers() {
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAllUsers() {
     return FirebaseFirestore.instance.collection('Users').snapshots();
   }
 
-  Stream<DocumentSnapshot<Map<String, dynamic>>> taskList(String listId) {
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getAllTaskList(String listId) {
     return FirebaseFirestore.instance
         .collection('Tasks')
         .doc(listId)
         .snapshots();
   }
 
-  Stream<DocumentSnapshot<Map<String, dynamic>>> userLists() {
+  /*
+  Get user's document snapshot
+   */
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getUserDoc() {
     // print("From ListService.userLists():");
     // printUserLists();
 
@@ -48,29 +47,32 @@ class ListService {
         .snapshots();
   }
 
-  Stream<List<Stream<DocumentSnapshot<Map<String, dynamic>>>>>
-      allListsDocSnapshots() {
-    return userLists().map((userDocument) {
-      var data = userDocument.data();
-      if (data == null || data['lists'] == null) {
-        return <String>[];
-      }
-      return List<String>.from(data['lists']);
-    }).map((listIds) {
-      return listIds.map((listId) => taskList(listId)).toList();
-    });
-  }
+  // Stream<List<Stream<DocumentSnapshot<Map<String, dynamic>>>>>
+  //     allListsDocSnapshots() {
+  //   return getUserDoc().map((userDocument) {
+  //     var data = userDocument.data();
+  //     if (data == null || data['lists'] == null) {
+  //       return <String>[];
+  //     }
+  //     return List<String>.from(data['lists']);
+  //   }).map((listIds) {
+  //     return listIds.map((listId) => taskList(listId)).toList();
+  //   });
+  // }
 
+  /*
+  Pull all lists user has access to, ordered by createdAt
+   */
   Stream<QuerySnapshot<Map<String, dynamic>>> allLists() {
     // use switchmap to subscribe to changes in currentUsersList()
-    return userLists().flatMap((userDocument) {
+    return getUserDoc().flatMap((userDocument) {
       var data = userDocument.data();
-      print("From ListService.allList(): $data");
+      // print("From ListService.allList(): $data");
       List<String> listIds = data != null && data['lists'] != null
           ? List<String>.from(data['lists'])
           : [];
 
-      // handling empty lists, firestore 'whereIn' query cannot be empty
+      // handling empty lists, Firestore 'whereIn' query cannot be empty
       if (listIds.isEmpty) {
         listIds = ["-"];
       }
@@ -86,11 +88,11 @@ class ListService {
     });
   }
 
-  /// methods for modifying user data
-
-  void newUserList(String uid) async {
+  /*
+  Create an empty set to store list ids user has access to
+   */
+  void createNewUserList(String uid) async {
     // await FirebaseFirestore.instance.collection('Tasks').doc().set({});
-
     await FirebaseFirestore.instance
         .collection('Users')
         .doc(uid)
@@ -99,8 +101,9 @@ class ListService {
     });
   }
 
-  /// add new empty list to Tasks
-  /// and update User's doc to reflect access to the new list
+  /*
+  add new empty list to Tasks db, and update User's doc to reflect access to the new list
+   */
   Future<String> addTaskList(String name) async {
     final emptyList = {
       "name": name,
@@ -137,7 +140,8 @@ class ListService {
       print("Error deleting list ID from user document: $error");
     });
 
-    await printUserLists();
+
+    // await printUserLists();
   }
 
   Future<void> changeListName(TaskList taskList, String listName) async {
@@ -149,7 +153,9 @@ class ListService {
     });
   }
 
-  /// update task status, and add/remove task
+  /*
+  update task status, and add/remove task
+   */
   void updateTaskListMetadata(TaskList taskList) async {
     Map<String, Map> metaData = taskList.transformToMetaData();
 
@@ -159,6 +165,9 @@ class ListService {
         .update({'taskMetaData': metaData});
   }
 
+  /*
+  For debugging
+   */
   Future<void> printUserLists() async {
     try {
       User? currentUser = FirebaseAuth.instance.currentUser;

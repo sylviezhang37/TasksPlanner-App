@@ -36,8 +36,7 @@ void popUpAlert(BuildContext context, bool showCancelButton, String title,
 }
 
 
-Future<bool?> popUpAlertConfirm(BuildContext context, String title, String message) {
-
+Future<bool?> popUpConfirmWindow(BuildContext context, String title, String message) {
   return showDialog(
     context: context,
     builder: (BuildContext context) {

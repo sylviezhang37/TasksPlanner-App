@@ -105,6 +105,13 @@ TextStyle kHintTextStyleDark = TextStyle(
   fontWeight: FontWeight.w400,
 );
 
+TextStyle kHintTextStyleMini = TextStyle(
+  color: kThemeDataDark.colorScheme.primary.withOpacity(0.6),
+  fontSize: 14.0,
+  fontWeight: FontWeight.w300,
+  decoration: TextDecoration.underline,
+);
+
 // TextStyle kHintTextStyleLight = kHintTextStyleDark.copyWith(color: kThemeDataDark.colorScheme.onPrimary);
 
 ButtonStyle kDropDownMenuItemStyle = ButtonStyle(

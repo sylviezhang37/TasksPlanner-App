@@ -1,3 +1,4 @@
+import 'package:TasksPlanner/components/reset_password_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Positioned(
                     left: MediaQuery.of(context).size.width * 0.1,
-                    top: MediaQuery.of(context).size.width * 0.4,
+                    top: MediaQuery.of(context).size.width * 0.3,
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.8,
                       height: MediaQuery.of(context).size.width * 0.8,
@@ -112,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   Positioned(
-                    top: MediaQuery.of(context).size.width * 0.25,
+                    top: MediaQuery.of(context).size.width * 0.20,
                     child: CustomIconButton(
                       () => Navigator.pop(context),
                       kBackArrowLeft,
@@ -121,28 +122,39 @@ class _LoginScreenState extends State<LoginScreen> {
                   Positioned(
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(50.0,
-                          MediaQuery.of(context).size.height * 0.38, 50, 50),
+                          MediaQuery.of(context).size.height * 0.35, 50, 50),
                       child: Column(
                         children: [
                           SizedBox(
                               height: MediaQuery.of(context).size.height * 0.2),
                           TextField(
-                            controller: emailTextController,
-                            keyboardType: TextInputType.emailAddress,
-                            textAlign: TextAlign.center,
-                            onChanged: (value) {
-                              email = value;
-                            },
-                            decoration:
-                                kInputDecorationFilled(context, "email"),
-                          ),
+                              onTapOutside: (event) {
+                                print('onTapOutside');
+                                FocusManager.instance.primaryFocus?.unfocus();
+                              },
+                              controller: emailTextController,
+                              keyboardType: TextInputType.emailAddress,
+                              textAlign: TextAlign.center,
+                              onChanged: (value) {
+                                email = value;
+                              },
+                              decoration:
+                                  kInputDecorationFilled(context, "email"),
+                              textInputAction: TextInputAction.next),
                           const SizedBox(height: 8.0),
                           TextField(
+                            onTapOutside: (event) {
+                              print('onTapOutside');
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            },
                             controller: passwordTextController,
                             obscureText: true,
                             textAlign: TextAlign.center,
                             onChanged: (value) {
                               password = value;
+                            },
+                            onEditingComplete: () {
+                              signIn();
                             },
                             decoration:
                                 kInputDecorationFilled(context, "password"),
@@ -167,8 +179,18 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: kHintTextStyleDark,
                             ),
                           ),
+                          TextButton(
+                            onPressed: () {
+                              resetPasswordDialog(context);
+                            },
+                            child: Text(
+                              'Forgot your password?',
+                              style: kHintTextStyleMini,
+                            ),
+                          ),
                           SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.1),
+                              height:
+                                  MediaQuery.of(context).size.height * 0.05),
                         ],
                       ),
                     ),

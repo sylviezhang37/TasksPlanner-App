@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../components/popup_alert.dart';
 import '../screens/home_screen.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import '../models/list_service.dart';
+import '../models/firestore_service.dart';
 import '../utilities/constants.dart';
 
 class Registration extends StatefulWidget {
@@ -29,7 +29,7 @@ class _RegistrationState extends State<Registration> {
       final newUser = await _auth.createUserWithEmailAndPassword(
           email: email!, password: password!);
       if (newUser != Null) {
-        ListService().newUserList(_auth.currentUser!.uid);
+        ListService().createNewUserList(_auth.currentUser!.uid);
         // Navigator.pushNamed(context, HomePage.id);
         Navigator.push(
             context,
@@ -84,7 +84,7 @@ class _RegistrationState extends State<Registration> {
                     top: MediaQuery.of(context).size.width * 0.8,
                     child: Container(
                       width: MediaQuery.of(context).size.width * 1,
-                      height: MediaQuery.of(context).size.height * 0.17,
+                      height: MediaQuery.of(context).size.height * 0.22,
                       decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.surfaceVariant,
                       ),
@@ -106,36 +106,42 @@ class _RegistrationState extends State<Registration> {
                       ),
                     ),
                   ),
-                  // Positioned(
-                  //   left: MediaQuery.of(context).size.width * 0.05,
-                  //   top: MediaQuery.of(context).size.width * 0.15,
-                  //   child: kBackArrowButton(() {Navigator.pop(context);}),
-                  // ),
                   Positioned(
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(50.0,
-                          MediaQuery.of(context).size.height * 0.38, 50, 50),
+                          MediaQuery.of(context).size.height * 0.35, 50, 50),
                       child: Column(
                         children: [
                           SizedBox(
                               height: MediaQuery.of(context).size.height * 0.2),
                           TextField(
-                            controller: emailTextController,
-                            keyboardType: TextInputType.emailAddress,
-                            textAlign: TextAlign.center,
-                            onChanged: (value) {
-                              email = value;
-                            },
-                            decoration:
-                                kInputDecorationFilled(context, "email"),
-                          ),
+                              onTapOutside: (event) {
+                                print('onTapOutside');
+                                FocusManager.instance.primaryFocus?.unfocus();
+                              },
+                              controller: emailTextController,
+                              keyboardType: TextInputType.emailAddress,
+                              textAlign: TextAlign.center,
+                              onChanged: (value) {
+                                email = value;
+                              },
+                              decoration:
+                                  kInputDecorationFilled(context, "email"),
+                              textInputAction: TextInputAction.next),
                           const SizedBox(height: 8.0),
                           TextField(
+                            onTapOutside: (event) {
+                              print('onTapOutside');
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            },
                             controller: passwordTextController,
                             obscureText: true,
                             textAlign: TextAlign.center,
                             onChanged: (value) {
                               password = value;
+                            },
+                            onEditingComplete: () {
+                              register();
                             },
                             decoration:
                                 kInputDecorationFilled(context, "password"),
@@ -160,7 +166,8 @@ class _RegistrationState extends State<Registration> {
                             ),
                           ),
                           SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.1),
+                              height:
+                                  MediaQuery.of(context).size.height * 0.05),
                         ],
                       ),
                     ),

@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import '../models/task_list.dart';
 
 class UserLists {
-  static String taskDoneFraction(List<TaskList> userLists) {
+  /*
+  Calculate and return tasks completion percentage in fraction
+   */
+  static String completionFraction(List<TaskList> userLists) {
     if (userLists.isEmpty || userLists == null) {
       return '0';
     }
@@ -17,7 +20,10 @@ class UserLists {
     return "$totalDone / $totalLen";
   }
 
-  static double taskDonePercentage(List<TaskList> userLists) {
+  /*
+  Calculate and return tasks completion percentage
+   */
+  static double completionPercentage(List<TaskList> userLists) {
     if (userLists.isEmpty || userLists == null) {
       return 0;
     }
@@ -36,20 +42,20 @@ class UserLists {
     return totalDone / totalLen;
   }
 
-  static List<TaskList> fromQuerySnapshot(
+  /*
+  Get a list of user's all task lists from query snapshot
+   */
+  static List<TaskList> getQuerySnapshot(
       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
     List<TaskList> userLists = [];
     if (snapshot.hasData) {
-       print('has data in async query snapshot}');
+       // print('Has data in async QS}');
       for (var docSnapshot in snapshot.data!.docs) {
-        print(
-            'pulling from async query snapshot: ${docSnapshot.id} => ${docSnapshot.data()}');
-        userLists.add(TaskList.fromQuerySnapshot(querySnapshot: docSnapshot));
+        // print('From async QS: ${docSnapshot.id} => ${docSnapshot.data()}');
+        userLists.add(TaskList.getQuerySnapshot(querySnapshot: docSnapshot));
       }
-    }
-
-    if (!snapshot.hasData) {
-      print('From async query snapshot: no data}');
+    } else if (!snapshot.hasData) {
+      print('From async QS: no data}');
     }
     return userLists;
   }

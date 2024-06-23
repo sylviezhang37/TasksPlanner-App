@@ -2,7 +2,7 @@ import 'package:TasksPlanner/components/popup_alert.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:TasksPlanner/tasks/tasks_screen.dart';
 import 'package:flutter/material.dart';
-import '../models/list_service.dart';
+import '../models/firestore_service.dart';
 import '../models/task_list.dart';
 import '../models/user_lists.dart';
 import '../utilities/constants.dart';
@@ -20,7 +20,7 @@ class _HomePageMyLists extends State<HomePageMyLists> {
   }
 
   Future<bool?> confirmDismiss(DismissDirection direction) {
-    return popUpAlertConfirm(
+    return popUpConfirmWindow(
       context,
       "Delete this list?",
       "Click 'OK' to confirm, or 'CANCEL' to cancel.",
@@ -56,7 +56,7 @@ class _HomePageMyLists extends State<HomePageMyLists> {
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (snapshot.hasData) {
-          List<TaskList> userLists = UserLists.fromQuerySnapshot(snapshot);
+          List<TaskList> userLists = UserLists.getQuerySnapshot(snapshot);
 
           if (userLists.isEmpty) {
             return emptyUserListsView();
@@ -109,9 +109,14 @@ class _HomePageMyLists extends State<HomePageMyLists> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.end,
                                       children: [
-                                        Text(
-                                          userLists[index].name,
-                                          style: kHomePageSubheaderTextStyle,
+                                        Expanded(
+                                          child:Text(
+                                            userLists[index].name,
+                                            style: kHomePageSubheaderTextStyle,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            softWrap: false,
+                                          ),
                                         ),
                                         kListCardArrow,
                                       ],

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../navigation/nav_bar_item.dart';
 import '../screens/settings_screen.dart';
 import '../screens/home_screen.dart';
-import '../models/list_service.dart';
+import '../models/firestore_service.dart';
 import '../models/task_list.dart';
 import '../models/user_lists.dart';
 import '../navigation/navigation_bar.dart';
@@ -33,7 +33,7 @@ class _TasksScreenState extends State<TasksScreen> {
           return const Text("Something went wrong.");
         }
 
-        List<TaskList> userLists = UserLists.fromQuerySnapshot(snapshot);
+        List<TaskList> userLists = UserLists.getQuerySnapshot(snapshot);
 
         TaskList? taskList;
         if (widget.listID != null) {
