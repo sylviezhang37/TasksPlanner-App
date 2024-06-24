@@ -6,6 +6,7 @@ import '../utilities/constants.dart';
 
 class SettingsScreen extends StatelessWidget {
   static const String id = 'settings_screen';
+  const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +37,9 @@ class SettingsScreen extends StatelessWidget {
               children: [
                 const Text(
                   'Need Help?',
-                  style: kHomePageHeaderTextStyle,
+                  style: kHPHeaderTextStyle,
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(Icons.email),
@@ -53,7 +54,7 @@ class SettingsScreen extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.55),
                 const Text(
                   'Settings',
-                  style: kHomePageHeaderTextStyle,
+                  style: kHPHeaderTextStyle,
                 ),
                 Container(
                   height: MediaQuery.of(context).size.height * 0.15,

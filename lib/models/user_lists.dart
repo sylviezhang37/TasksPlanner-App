@@ -38,7 +38,6 @@ class UserLists {
         .toDouble();
 
     if (totalLen == 0) return 0;
-
     return totalDone / totalLen;
   }
 

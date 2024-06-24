@@ -10,7 +10,7 @@ class MenuDrawer extends StatelessWidget {
   final Function(int) onItemTapped;
   Function(BuildContext, String) addTaskListCallBack;
 
-  MenuDrawer({required this.onItemTapped, required this.addTaskListCallBack});
+  MenuDrawer({super.key, required this.onItemTapped, required this.addTaskListCallBack});
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,7 @@ class MenuDrawer extends StatelessWidget {
                   icon: const Icon(Icons.add),
                   label: Text(
                     'Add List',
-                    style: kdialogActionTextStyle,
+                    style: kDialogActionTextStyle,
                   ),
                 ),
               ),

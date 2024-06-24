@@ -5,7 +5,8 @@ import '../utilities/constants.dart';
 class CustomNavigationBar extends StatelessWidget {
   final List<NavBarItem> items;
 
-  CustomNavigationBar({
+  const CustomNavigationBar({
+    super.key,
     required this.items,
   });
 
@@ -16,7 +17,7 @@ class CustomNavigationBar extends StatelessWidget {
         decoration: kAppBarDecoration, // add shadow
         margin: kAppBarPadding,
         child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(30)),
+          borderRadius: const BorderRadius.all(Radius.circular(30)),
           child: BottomAppBar(
             // shape: CircularNotchedRectangle(),
             elevation: 4.0,

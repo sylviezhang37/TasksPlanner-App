@@ -9,8 +9,4 @@ class Authentication {
   }
 
   FirebaseAuth get auth => _auth;
-
-  void signOut() {
-    _auth.signOut();
-  }
 }

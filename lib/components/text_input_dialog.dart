@@ -13,7 +13,7 @@ Future<void> displayTextInputDialog(
     builder: (context) {
       return AlertDialog(
         alignment: Alignment.center,
-        title: Text(title, style: kdialogTitleTextStyle),
+        title: Text(title, style: kDialogTitleTextStyle),
         content: TextField(
           autofocus: true,
           controller: _textFieldController,
@@ -21,13 +21,13 @@ Future<void> displayTextInputDialog(
         ),
         actions: <Widget>[
           TextButton(
-            child: Text('CANCEL', style: kdialogActionTextStyle),
+            child: Text('CANCEL', style: kDialogActionTextStyle),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
           TextButton(
-            child: Text('OK', style: kdialogActionTextStyle),
+            child: Text('OK', style: kDialogActionTextStyle),
             onPressed: () async {
               if (_textFieldController.text.isNotEmpty) {
                 await onPressCallBack(context, _textFieldController.text);

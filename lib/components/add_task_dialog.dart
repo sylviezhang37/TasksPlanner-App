@@ -116,7 +116,7 @@ class AddTaskDialog extends StatelessWidget {
                       child: TextButton(
                         child: Text(
                           'CANCEL',
-                          style: kdialogActionTextStyle,
+                          style: kDialogActionTextStyle,
                         ),
                         onPressed: () {
                           Navigator.pop(context);
@@ -128,7 +128,7 @@ class AddTaskDialog extends StatelessWidget {
                       child: TextButton(
                         child: Text(
                           'ADD',
-                          style: kdialogActionTextStyle,
+                          style: kDialogActionTextStyle,
                         ),
                         onPressed: () {
                           confirmAdd(newTask!, context);

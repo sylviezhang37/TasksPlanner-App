@@ -23,9 +23,9 @@ class ListService {
     }
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getAllUsers() {
-    return FirebaseFirestore.instance.collection('Users').snapshots();
-  }
+  // Stream<QuerySnapshot<Map<String, dynamic>>> getAllUsers() {
+  //   return FirebaseFirestore.instance.collection('Users').snapshots();
+  // }
 
   Stream<DocumentSnapshot<Map<String, dynamic>>> getAllTaskList(String listId) {
     return FirebaseFirestore.instance
@@ -38,33 +38,17 @@ class ListService {
   Get user's document snapshot
    */
   Stream<DocumentSnapshot<Map<String, dynamic>>> getUserDoc() {
-    // print("From ListService.userLists():");
-    // printUserLists();
-
     return FirebaseFirestore.instance
         .collection('Users')
         .doc(currentUser!.uid)
         .snapshots();
   }
 
-  // Stream<List<Stream<DocumentSnapshot<Map<String, dynamic>>>>>
-  //     allListsDocSnapshots() {
-  //   return getUserDoc().map((userDocument) {
-  //     var data = userDocument.data();
-  //     if (data == null || data['lists'] == null) {
-  //       return <String>[];
-  //     }
-  //     return List<String>.from(data['lists']);
-  //   }).map((listIds) {
-  //     return listIds.map((listId) => taskList(listId)).toList();
-  //   });
-  // }
-
   /*
   Pull all lists user has access to, ordered by createdAt
    */
   Stream<QuerySnapshot<Map<String, dynamic>>> allLists() {
-    // use switchmap to subscribe to changes in currentUsersList()
+    // use flatMap to subscribe to changes in currentUsersList()
     return getUserDoc().flatMap((userDocument) {
       var data = userDocument.data();
       // print("From ListService.allList(): $data");
@@ -72,7 +56,7 @@ class ListService {
           ? List<String>.from(data['lists'])
           : [];
 
-      // handling empty lists, Firestore 'whereIn' query cannot be empty
+      // handling empty lists, FireStore 'whereIn' query cannot be empty
       if (listIds.isEmpty) {
         listIds = ["-"];
       }
@@ -84,7 +68,7 @@ class ListService {
           .snapshots();
     }).handleError((error) {
       print("Error handling stream: $error");
-      return Stream.empty();
+      return const Stream.empty();
     });
   }
 
@@ -128,10 +112,13 @@ class ListService {
     return docRef.id;
   }
 
+  /*
+  Delete an entire task list and update user's metadata
+   */
   Future<void> deleteTaskList(List<TaskList> userLists, String listID) async {
     List<String> listIDs = userLists.map((list) => list.id).toList();
     listIDs.remove(listID);
-    print("Deleted tasks, new listIDs ${listIDs}");
+    // print("Deleted tasks, new listIDs ${listIDs}");
 
     await FirebaseFirestore.instance
         .collection('Users')
@@ -139,11 +126,11 @@ class ListService {
         .update({'lists': listIDs}).catchError((error) {
       print("Error deleting list ID from user document: $error");
     });
-
-
-    // await printUserLists();
   }
 
+  /*
+  Change the name of a task list and update user's meta data
+   */
   Future<void> changeListName(TaskList taskList, String listName) async {
     await FirebaseFirestore.instance
         .collection('Tasks')
@@ -154,7 +141,8 @@ class ListService {
   }
 
   /*
-  update task status, and add/remove task
+  update task list meta in FireStore when
+  a change to a task or a task list has been made
    */
   void updateTaskListMetadata(TaskList taskList) async {
     Map<String, Map> metaData = taskList.transformToMetaData();

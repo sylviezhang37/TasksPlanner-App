@@ -8,6 +8,7 @@ import '../utilities/constants.dart';
 
 class Registration extends StatefulWidget {
   static const String id = 'registration_screen';
+  const Registration({super.key});
 
   @override
   State<Registration> createState() => _RegistrationState();
@@ -21,6 +22,9 @@ class _RegistrationState extends State<Registration> {
   String? email;
   String? password;
 
+  /*
+  Register a new user and create their initial meta data
+   */
   void register() async {
     setState(() {
       showSpinner = true;
@@ -116,7 +120,6 @@ class _RegistrationState extends State<Registration> {
                               height: MediaQuery.of(context).size.height * 0.2),
                           TextField(
                               onTapOutside: (event) {
-                                print('onTapOutside');
                                 FocusManager.instance.primaryFocus?.unfocus();
                               },
                               controller: emailTextController,
@@ -131,7 +134,6 @@ class _RegistrationState extends State<Registration> {
                           const SizedBox(height: 8.0),
                           TextField(
                             onTapOutside: (event) {
-                              print('onTapOutside');
                               FocusManager.instance.primaryFocus?.unfocus();
                             },
                             controller: passwordTextController,
@@ -153,7 +155,7 @@ class _RegistrationState extends State<Registration> {
                               },
                               style: kElevatedButtonStyle,
                               child: const Text(
-                                'Register',
+                                'Sign Up',
                                 style: kBodyTextStyleDark,
                               )),
                           TextButton(

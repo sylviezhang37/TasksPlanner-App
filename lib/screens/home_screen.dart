@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
   static const String id = 'home_page';
   final String? previousPageID;
 
-  HomePage({String this.previousPageID = "log_in"});
+  const HomePage({super.key, String this.previousPageID = "log_in"});
 
   @override
   State<HomePage> createState() => _HomePage();
@@ -25,32 +25,36 @@ class HomePage extends StatefulWidget {
 
 class _HomePage extends State<HomePage> {
   late Text welcomeText;
+  late List<TaskList> userLists;
 
   @override
   void initState() {
     super.initState();
     welcomeText = Text(
       widget.previousPageID == "log_in" ? "Welcome Back :)" : "Welcome!",
-      style: kHomePageHeaderTextStyle,
+      style: kHPHeaderTextStyle,
     );
   }
 
+  /*
+  Navigation bar objects at the bottom of screen
+   */
   List<NavBarItem> navBarItems(
           BuildContext context, List<TaskList> userLists) =>
       [
         NavBarItem(
-          icon: Icon(Icons.search),
+          icon: const Icon(Icons.search),
           onTap: () => {searchDialog(context, userLists)},
         ),
         NavBarItem(
-            icon: Icon(Icons.format_list_bulleted_add),
+            icon: const Icon(Icons.format_list_bulleted_add),
             onTap: () => displayTextInputDialog(
                   context,
                   "New List:",
                   addTaskList,
                 )),
         NavBarItem(
-          icon: Icon(Icons.settings),
+          icon: const Icon(Icons.settings),
           onTap: () => Navigator.pushNamed(context, SettingsScreen.id),
         ),
       ];
@@ -61,7 +65,7 @@ class _HomePage extends State<HomePage> {
         MaterialPageRoute(builder: (context) => TasksScreen(listID: listID)));
   }
 
-  IconButton topRightArrowButton() => CustomIconButton(
+  IconButton topRightArrowButton() => customIconButton(
       () => Navigator.push(
           context, MaterialPageRoute(builder: (context) => TasksScreen())),
       kOutArrowRight);
@@ -88,9 +92,7 @@ class _HomePage extends State<HomePage> {
             }
           }
 
-          List<TaskList> userLists = UserLists.getQuerySnapshot(snapshot);
-          // print(
-          //     "From home screen, ${userLists}; userList is empty: ${userLists.isEmpty}");
+          userLists = UserLists.getQuerySnapshot(snapshot);
 
           return Scaffold(
             extendBody: true,
@@ -125,11 +127,8 @@ class _HomePage extends State<HomePage> {
                         Positioned(
                           top: MediaQuery.of(context).size.width * 0.04,
                           left: MediaQuery.of(context).size.width * 0.01,
-                          child: Text(
-                            style: TextStyle(
-                                fontSize: 28.0,
-                                fontWeight: FontWeight.bold,
-                                color: kThemeDataDark.colorScheme.onSurface),
+                          child: const Text(
+                            style: kHPAllTasksTextStyle,
                             'Tasks Completed',
                           ),
                         ),
@@ -137,10 +136,11 @@ class _HomePage extends State<HomePage> {
                             top: MediaQuery.of(context).size.width * 0.17,
                             left: 0,
                             child: LinearPercentIndicator(
-                              barRadius: Radius.circular(3.0),
+                              barRadius: const Radius.circular(3.0),
                               lineHeight: 8.0,
                               width: MediaQuery.of(context).size.height * 0.14,
-                              percent: UserLists.completionPercentage(userLists),
+                              percent:
+                                  UserLists.completionPercentage(userLists),
                               backgroundColor:
                                   kThemeDataDark.colorScheme.onBackground,
                               progressColor:
@@ -155,7 +155,7 @@ class _HomePage extends State<HomePage> {
                       child: Center(
                         child: SizedBox(
                             width: MediaQuery.of(context).size.width * 0.9,
-                            child: HomePageMyLists()),
+                            child: const HomePageTaskLists()),
                       ),
                     ),
                   ]),

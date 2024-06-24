@@ -7,14 +7,14 @@ import '../models/task_list.dart';
 import '../models/user_lists.dart';
 import '../utilities/constants.dart';
 
-class HomePageMyLists extends StatefulWidget {
-  const HomePageMyLists({super.key});
+class HomePageTaskLists extends StatefulWidget {
+  const HomePageTaskLists({super.key});
 
   @override
-  State<HomePageMyLists> createState() => _HomePageMyLists();
+  State<HomePageTaskLists> createState() => _HomePageMyLists();
 }
 
-class _HomePageMyLists extends State<HomePageMyLists> {
+class _HomePageMyLists extends State<HomePageTaskLists> {
   void deleteList(List<TaskList> userLists, String taskListID) {
     ListService().deleteTaskList(userLists, taskListID);
   }
@@ -41,7 +41,7 @@ class _HomePageMyLists extends State<HomePageMyLists> {
                   style: kBodyTextStyleDark.copyWith(fontSize: 15.0),
                 ),
                 const Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: EdgeInsets.all(15.0),
                   child: Icon(Icons.arrow_downward_rounded),
                 ),
               ],
@@ -87,7 +87,7 @@ class _HomePageMyLists extends State<HomePageMyLists> {
                             ],
                           ),
                           child: ElevatedButton(
-                            style: kHomePageButtonStyleRandom(index),
+                            style: kHPTaskListStyleRandom(index),
                             onPressed: () {
                               Navigator.push(
                                   context,
@@ -112,7 +112,7 @@ class _HomePageMyLists extends State<HomePageMyLists> {
                                         Expanded(
                                           child:Text(
                                             userLists[index].name,
-                                            style: kHomePageSubheaderTextStyle,
+                                            style: kHPSubHeaderTextStyle,
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
                                             softWrap: false,

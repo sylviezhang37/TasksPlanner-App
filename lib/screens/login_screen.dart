@@ -11,6 +11,7 @@ import '../utilities/constants.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
+  const LoginScreen({super.key});
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -24,6 +25,9 @@ class _LoginScreenState extends State<LoginScreen> {
   String? password;
   final _auth = FirebaseAuth.instance;
 
+  /*
+  Sign in through Firebase
+   */
   void signIn() async {
     setState(() {
       showSpinner = true;
@@ -114,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Positioned(
                     top: MediaQuery.of(context).size.width * 0.20,
-                    child: CustomIconButton(
+                    child: customIconButton(
                       () => Navigator.pop(context),
                       kBackArrowLeft,
                     ),
@@ -129,7 +133,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               height: MediaQuery.of(context).size.height * 0.2),
                           TextField(
                               onTapOutside: (event) {
-                                print('onTapOutside');
                                 FocusManager.instance.primaryFocus?.unfocus();
                               },
                               controller: emailTextController,
@@ -144,7 +147,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(height: 8.0),
                           TextField(
                             onTapOutside: (event) {
-                              print('onTapOutside');
                               FocusManager.instance.primaryFocus?.unfocus();
                             },
                             controller: passwordTextController,
@@ -175,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Navigator.pushNamed(context, Registration.id);
                             },
                             child: Text(
-                              'Register',
+                              'Sign Up',
                               style: kHintTextStyleDark,
                             ),
                           ),

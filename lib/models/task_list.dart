@@ -10,9 +10,11 @@ class TaskList {
   late String _name;
   late final PriorityQueue<Task> _tasks = PriorityQueue<Task>((a, b) => TaskComparator(a: a, b: b).compare());
 
+  /*
+  Constructors from query snapshot and doc snapshot
+   */
   TaskList.getQuerySnapshot({required querySnapshot}) {
     var map = querySnapshot.data();
-
     _id = querySnapshot.id;
     _name = map['name'] ?? '';
 
@@ -29,7 +31,6 @@ class TaskList {
 
   TaskList.getDocSnapshot({required docSnapshot, required listId}) {
     var map = docSnapshot.data!;
-
     _id = listId;
     _name = map['name'] ?? '';
 
@@ -49,10 +50,6 @@ class TaskList {
   int get length => _tasks.length;
   PriorityQueue<Task> get tasks => _tasks;
 
-  int numOfDone() {
-    return _tasks.toList().where((task) => task.done).length;
-  }
-
   void addTask(Task task) {
     _tasks.add(task);
   }
@@ -60,7 +57,11 @@ class TaskList {
   void removeTask(Task task) async {
     tasks.remove(task);
   }
-  
+
+  /*
+  Calculate task completion status
+   */
+  int numOfDone() {return _tasks.toList().where((task) => task.done).length;}
   String completionFraction() => '${numOfDone()} / $length';
   double completionPercentage() => numOfDone() / length;
 
@@ -79,25 +80,3 @@ class TaskList {
     return metaData;
   }
 }
-
-// class TaskComparator {
-//   int compare(Task a, Task b) {
-//     int doneComparison = boolComparator(a.done, b.done);
-//     if (doneComparison != 0) {
-//       return doneComparison;
-//     } else if (a.done != true && b.done != true) {
-//       return a.lastUpdated.compareTo(b.lastUpdated); // old before new
-//     } else {
-//       return 0;
-//     }
-//   }
-//
-//   /*
-//   Comparator for boolean values, ordering false before true
-//    */
-//   int boolComparator(bool a, bool b) {
-//     if (a == b) {return 0;}
-//     if (a == true && b == false) {return 1;}
-//     else {return -1;}
-//   }
-// }
