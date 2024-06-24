@@ -6,7 +6,7 @@
   <br>
   TasksPlanner
   <br>
-<h4 align="center">A simple to-do list that allows you to manage tasks across devices.</h4>
+<h4 align="center">A minimal to-do list for managing tasks across all devices.</h4>
 </h1>
 
 
