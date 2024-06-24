@@ -27,7 +27,7 @@
     <img src="https://img.shields.io/static/v1?label=License&message=MIT&color=blue&style=flat-square">
   </a>  
   <a href="https://img.shields.io/github/v/release/sylviezhang37/TasksPlanner?style=flat-square">
-    <img src="https://img.shields.io/github/v/release/sylviezhang37/TasksPlanner?style=flat-square">
+    <img src="https://img.shields.io/github/v/release/sylviezhang37/TasksPlanner?style=flat-square&color=yellow">
   </a>
 </p>
 
