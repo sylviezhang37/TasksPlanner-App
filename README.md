@@ -2,7 +2,7 @@
 
 <h1 align="center">
   <br>
-  <img src="https://github.com/sylviezhang37/TasksPlanner/blob/main/assets/girl-with-map-2.0.png" alt="TasksPlanner" width="100">
+  <img src="https://github.com/sylviezhang37/TasksPlanner/blob/main/assets/logo.png" alt="TasksPlanner" width="100">
   <br>
   TasksPlanner
   <br>
@@ -39,22 +39,22 @@
 </p>
 
 # Installation
-Download in IOS
-Download in Android:
-- first join internal testing group
-- then, download here
+| Platform    | Link                                                                                                                                                                                                                     |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **IOS**     | Download on the [App Store](https://apps.apple.com/us/app/tasksplanner/id6499468703?platform=iphone)                                                                                                                       |
+| **Android** | First, join the [internal testing group](https://groups.google.com/u/1/g/tasksplanner-testers) to gain access.<br>Then, [download the app](https://play.google.com/store/apps/details?id=com.sylviezhang.tasksplanner). |
 
 # Features
-- Manage: manage your tasks across all of your devices seamlessly
-- Swipe: a simple swipe to delete a task or a list
-- Search: quickly locate a task through search
-- Track: get a snapshot of your progress
+- **Manage**: Seamlessly manage your tasks across all your devices.
+- **Swipe**: Easily delete a task or a list with a simple swipe.
+- **Search**: Quickly locate tasks using the search feature.
+- **Track**: Get an instant snapshot of your progress.
 
 # License
 This project is licensed under the MIT License.
 
-# Contact 
-For all questions and feedback, please email me at oatsmoothie.apps@gmail.com
+# Contact
+oatsmoothie.apps@gmail.com
 
 # Contribution
 All contributions are welcome! 
