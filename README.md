@@ -41,8 +41,8 @@
 # Installation
 | Platform    | Link                                                                                                                                                                                                                     |
 | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **IOS**     | Download on the [App Store](https://apps.apple.com/us/app/tasksplanner/id6499468703?platform=iphone)                                                                                                                       |
-| **Android** | First, join the [internal testing group](https://groups.google.com/u/1/g/tasksplanner-testers) to gain access.<br>Then, [download the app](https://play.google.com/store/apps/details?id=com.sylviezhang.tasksplanner). |
+| **IOS**     | Download in the [App Store](https://apps.apple.com/us/app/tasksplanner/id6499468703?platform=iphone).                                                                                                                       |
+| **Android** | First, join the [internal testing group](https://groups.google.com/u/1/g/tasksplanner-testers) to gain access.<br>Then, [download the app in Play Store](https://play.google.com/store/apps/details?id=com.sylviezhang.tasksplanner). |
 
 # Features
 - **Manage**: Seamlessly manage your tasks across all your devices.
