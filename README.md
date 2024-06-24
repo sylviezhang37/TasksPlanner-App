@@ -49,6 +49,7 @@
 - **Swipe**: Easily delete a task or a list with a simple swipe.
 - **Search**: Quickly locate tasks using the search feature.
 - **Track**: Get an instant snapshot of your progress.
+& many more!
 
 # License
 This project is licensed under the MIT License.
