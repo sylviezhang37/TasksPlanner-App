@@ -37,6 +37,9 @@
 <a href="#license">License</a> &nbsp;&bull;&nbsp;
 <a href="#contact">Contact</a>
 </p>
+<p align="center">
+  <img width="800" alt="asset1" src="https://github.com/sylviezhang37/TasksPlanner/assets/114536986/d6ea2cf1-4a0b-4a5c-a5c5-12f9fc246925">
+</p>
 
 # Features
 - <b>Synced:</b> Easily manage tasks across all your devices with free cloud storage.
@@ -45,12 +48,9 @@
 - <b>Search:</b> Locate tasks effortlessly using the built-in search feature.
 - <b>Track: </b> Get a snapshot of your progress at a glance.
   
-
 <p align="center">
-  <img width="800" alt="asset1" src="https://github.com/sylviezhang37/TasksPlanner/assets/114536986/d6ea2cf1-4a0b-4a5c-a5c5-12f9fc246925">
   <img width="800" alt="asset2" src="https://github.com/sylviezhang37/TasksPlanner/assets/114536986/f298c48f-b330-4caf-9455-633dcdb34b8c">
 </p>
-
 
 # Installation
 | Platform    | Link                                                                                                                                                                                                                     |
