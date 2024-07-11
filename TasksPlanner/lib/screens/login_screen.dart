@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           showSpinner = false;
         });
-        emailTextController.clear();
+        // emailTextController.clear();
         passwordTextController.clear();
       }
     }

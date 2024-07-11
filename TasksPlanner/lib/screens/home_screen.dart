@@ -3,14 +3,14 @@ import 'package:TasksPlanner/navigation/nav_bar_item.dart';
 import 'package:TasksPlanner/navigation/navigation_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../components/tasks/homepage_task_lists.dart';
 import '../models/firestore_service.dart';
 import '../components/text_input_dialog.dart';
 import '../screens/settings_screen.dart';
-import '../tasks/tasks_screen.dart';
+import 'tasks_screen.dart';
 import '../models/task_list.dart';
 import '../models/user_lists.dart';
 import '../utilities/constants.dart';
-import '../tasks/homepage_task_lists.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class HomePage extends StatefulWidget {

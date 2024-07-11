@@ -1,10 +1,10 @@
 import 'package:TasksPlanner/utilities/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../models/firestore_service.dart';
-import '../models/task.dart';
-import '../models/task_list.dart';
-import '../models/user_lists.dart';
+import '../../models/firestore_service.dart';
+import '../../models/task.dart';
+import '../../models/task_list.dart';
+import '../../models/user_lists.dart';
 
 class TasksListView extends StatefulWidget {
   TaskList? taskList;

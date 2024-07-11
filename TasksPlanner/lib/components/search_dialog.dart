@@ -2,7 +2,7 @@ import 'package:TasksPlanner/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:TasksPlanner/models/task.dart';
 import 'package:TasksPlanner/models/task_list.dart';
-import 'package:TasksPlanner/tasks/tasks_screen.dart';
+import 'package:TasksPlanner/screens/tasks_screen.dart';
 import 'package:flutter/widgets.dart';
 
 final TextEditingController textController = TextEditingController();

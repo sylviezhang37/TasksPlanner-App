@@ -1,10 +1,10 @@
+import 'package:TasksPlanner/components/tasks/tasks_listview.dart';
 import 'package:TasksPlanner/components/text_input_dialog.dart';
 import 'package:TasksPlanner/models/firestore_service.dart';
-import 'package:TasksPlanner/tasks/tasks_listview.dart';
 import 'package:flutter/material.dart';
-import '../models/task_list.dart';
-import '../models/user_lists.dart';
-import '../utilities/constants.dart';
+import '../../models/task_list.dart';
+import '../../models/user_lists.dart';
+import '../../utilities/constants.dart';
 
 class TasksListCard extends StatelessWidget {
   TaskList? taskList;

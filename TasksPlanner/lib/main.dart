@@ -33,9 +33,9 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.data == null) {
-              return WelcomeScreen(); // No user logged in
+              return const WelcomeScreen(); // No user logged in
             } else {
-              return HomePage(); // User logged in
+              return const HomePage(); // User logged in
             }
           }
           return const Scaffold(

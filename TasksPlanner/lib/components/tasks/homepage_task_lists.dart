@@ -1,11 +1,11 @@
 import 'package:TasksPlanner/components/popup_alert.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:TasksPlanner/tasks/tasks_screen.dart';
+import 'package:TasksPlanner/screens/tasks_screen.dart';
 import 'package:flutter/material.dart';
-import '../models/firestore_service.dart';
-import '../models/task_list.dart';
-import '../models/user_lists.dart';
-import '../utilities/constants.dart';
+import '../../models/firestore_service.dart';
+import '../../models/task_list.dart';
+import '../../models/user_lists.dart';
+import '../../utilities/constants.dart';
 
 class HomePageTaskLists extends StatefulWidget {
   const HomePageTaskLists({super.key});

@@ -1,16 +1,16 @@
 import 'package:TasksPlanner/components/search_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../components/tasks/tasks_card.dart';
 import '../navigation/nav_bar_item.dart';
-import '../screens/settings_screen.dart';
-import '../screens/home_screen.dart';
+import 'settings_screen.dart';
+import 'home_screen.dart';
 import '../models/firestore_service.dart';
 import '../models/task_list.dart';
 import '../models/user_lists.dart';
 import '../navigation/navigation_bar.dart';
 import '../navigation/menu_drawer.dart';
 import '../components/add_task_dialog.dart';
-import '../tasks/tasks_card.dart';
 
 class TasksScreen extends StatefulWidget {
   String? listID;
