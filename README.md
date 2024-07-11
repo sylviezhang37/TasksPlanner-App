@@ -2,7 +2,7 @@
 
 <h1 align="center">
   <br>
-  <img src="https://github.com/sylviezhang37/TasksPlanner/blob/main/assets/logo.png" alt="TasksPlanner" width="100">
+  <img src="https://github.com/sylviezhang37/TasksPlanner/blob/main/TasksPlanner/assets/logo.png" alt="TasksPlanner" width="100">
   <br>
   TasksPlanner
   <br>
