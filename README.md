@@ -53,10 +53,12 @@
 </p>
 
 # Installation
-| Platform    | Link                                                                                                                                                                                                                     |
-| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **IOS**     | Download in the [App Store](https://apps.apple.com/us/app/tasksplanner/id6499468703?platform=iphone).                                                                                                                       |
-| **Android** | First, join the [internal testing group](https://groups.google.com/u/1/g/tasksplanner-testers) to gain access.<br>Then, [download the app in Play Store](https://play.google.com/store/apps/details?id=com.sylviezhang.tasksplanner). |
+<p align="center">
+  <h3>
+  Available on the <a href="https://apps.apple.com/us/app/tasksplanner/id6499468703?platform=iphone">App Store</a> and <a href="https://play.google.com/store/apps/details?id=com.sylviezhang.tasksplanner&hl=en_US">Google Play Store</a> 
+  </h3>
+  </p>
+
 
 # License
 This project is licensed under the MIT License.
