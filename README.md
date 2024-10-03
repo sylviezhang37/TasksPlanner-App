@@ -56,9 +56,19 @@
 </p>
 
 # Installation
-<p align="center">
-  <h3>
-  Available on the <a href="https://apps.apple.com/us/app/tasksplanner/id6499468703?platform=iphone">App Store</a> and <a href="https://play.google.com/store/apps/details?id=com.sylviezhang.tasksplanner&hl=en_US">Google Play Store</a> 
+<p align="left">
+<!--   <h3>
+  Available on the <a href="https://apps.apple.com/us/app/tasksplanner/id6499468703?platform=iphone">App Store</a> and <a href="https://play.google.com/store/apps/details?id=com.sylviezhang.tasksplanner&hl=en_US">Google Play Store</a>  -->
+
+<a href="https://www.apple.com/app-store/">
+  <a href="https://apps.apple.com/us/app/tasksplanner/id6499468703?platform=iphone">App Store</a>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Apple_logo_grey.svg" alt="Apple Store" width="25">
+</a>
+&nbsp;    |    &nbsp;
+<a href="https://play.google.com/store">
+  <a href="https://play.google.com/store/apps/details?id=com.sylviezhang.tasksplanner&hl=en_US">Google Play Store</a>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Android_robot.svg" alt="Google Play" width="25">
+</a>
   </h3>
   </p>
 
