@@ -38,8 +38,18 @@
 </p>
 
 <p align="center">
-  <a href="#installation">Download Today!</a> 
-</p>
+Download at &nbsp;
+  <a href="https://www.apple.com/app-store/">
+  <a href="https://apps.apple.com/us/app/tasksplanner/id6499468703?platform=iphone">App Store</a>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Apple_logo_grey.svg" alt="Apple Store" width="18">
+</a>
+&nbsp;    |    &nbsp;
+<a href="https://play.google.com/store">
+  <a href="https://play.google.com/store/apps/details?id=com.sylviezhang.tasksplanner&hl=en_US">Play Store</a>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Android_robot.svg" alt="Google Play" width="18">
+</a>
+  </p>
+
 <p align="center">
   <img width="800" alt="asset1" src="https://github.com/sylviezhang37/TasksPlanner/assets/114536986/d6ea2cf1-4a0b-4a5c-a5c5-12f9fc246925">
 </p>
@@ -54,24 +64,6 @@
 <p align="center">
   <img width="800" alt="asset2" src="https://github.com/sylviezhang37/TasksPlanner/assets/114536986/f298c48f-b330-4caf-9455-633dcdb34b8c">
 </p>
-
-# Installation
-<p align="left">
-<!--   <h3>
-  Available on the <a href="https://apps.apple.com/us/app/tasksplanner/id6499468703?platform=iphone">App Store</a> and <a href="https://play.google.com/store/apps/details?id=com.sylviezhang.tasksplanner&hl=en_US">Google Play Store</a>  -->
-
-<a href="https://www.apple.com/app-store/">
-  <a href="https://apps.apple.com/us/app/tasksplanner/id6499468703?platform=iphone">App Store</a>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Apple_logo_grey.svg" alt="Apple Store" width="25">
-</a>
-&nbsp;    |    &nbsp;
-<a href="https://play.google.com/store">
-  <a href="https://play.google.com/store/apps/details?id=com.sylviezhang.tasksplanner&hl=en_US">Google Play Store</a>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Android_robot.svg" alt="Google Play" width="25">
-</a>
-  </h3>
-  </p>
-
 
 # License
 This project is licensed under the MIT License.
