@@ -33,9 +33,12 @@
 
 <p align="center">
 <a href="#features">Features</a> &nbsp;&bull;&nbsp;
-<a href="#installation">Installation</a> &nbsp;&bull;&nbsp;
 <a href="#license">License</a> &nbsp;&bull;&nbsp;
 <a href="#contact">Contact</a>
+</p>
+
+<p align="center">
+  <a href="#installation">Download Today!</a> 
 </p>
 <p align="center">
   <img width="800" alt="asset1" src="https://github.com/sylviezhang37/TasksPlanner/assets/114536986/d6ea2cf1-4a0b-4a5c-a5c5-12f9fc246925">
