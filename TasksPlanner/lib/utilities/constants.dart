@@ -3,30 +3,34 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+
 /*
 Themes
  */
-ThemeData kThemeDataPurple = ThemeData(
+
+ThemeData kThemeDataDark = ThemeData(
   useMaterial3: true,
-  fontFamily: 'Lato',
+  fontFamily: 'Rubik',
+  textTheme: GoogleFonts.rubikTextTheme(),
   colorScheme: const ColorScheme(
-    brightness: Brightness.light,
-    primary: Color(0xff21005C),
-    onPrimary: Colors.white,
-    secondary: Color(0xffBEA8F9),
-    onSecondary: Colors.white,
-    primaryContainer: Color(0xff7259AC),
-    secondaryContainer: Color(0xffFCDDE7),
+    brightness: Brightness.dark,
+    primary: Colors.white, //text on buttons
+    onPrimary: Colors.black,
+    secondary: Colors.red, //text input dialog
+    onSecondary: Color(0xff171E65),
+    primaryContainer: Color(0xff5A4EEF), //dismissable background
+    secondaryContainer: Color(0xffE2F4A6), //tasks card
     error: Colors.black,
     onError: Colors.white,
-    background: Color(0xffEBE2F8),
-    onBackground: Colors.white,
-    surface: Colors.white,
-    onSurface: Color(0xff7259AC),
+    onBackground: Color(0xffECE4F6), //checked
+    surface: Color(0xffF2EFE3), //elevated buttons on background
+    onSurface: Color(0xff3E2848), //header and subheader
+    surfaceContainerHighest: Color(0xffB6E0FF),
+    onSurfaceVariant: Color(0xff3E2848),
   ),
 );
 
-ThemeData kThemeDataDark = ThemeData(
+ThemeData kThemeDataLight = ThemeData(
   useMaterial3: true,
   fontFamily: 'Rubik',
   textTheme: GoogleFonts.rubikTextTheme(),
@@ -82,7 +86,7 @@ Drop down menu
  */
 InputDecoration kMenuBoxDecoration(Icon icon, String hinText) =>
     InputDecoration(
-      fillColor: kThemeDataDark.colorScheme.primary,
+      fillColor: kThemeDataLight.colorScheme.primary,
       prefixIcon: icon,
       hintText: hinText,
       hintStyle: kHintTextStyleDark,
@@ -116,8 +120,8 @@ Decoration kAppBarDecoration = BoxDecoration(
 Text Styles
  */
 TextStyle kWelcomeScreenTextStyle =
-    kThemeDataDark.textTheme.bodyLarge!.copyWith(
-  color: kThemeDataDark.colorScheme.primary,
+    kThemeDataLight.textTheme.bodyLarge!.copyWith(
+  color: kThemeDataLight.colorScheme.primary,
   fontSize: 62.0,
 );
 
@@ -151,13 +155,13 @@ const TextStyle kBodyTextStyleDark = TextStyle(
 );
 
 TextStyle kHintTextStyleDark = TextStyle(
-  color: kThemeDataDark.colorScheme.primary.withOpacity(0.6),
+  color: kThemeDataLight.colorScheme.primary.withOpacity(0.6),
   fontSize: 18.0,
   fontWeight: FontWeight.w400,
 );
 
 TextStyle kHintTextStyleMini = TextStyle(
-  color: kThemeDataDark.colorScheme.primary.withOpacity(0.6),
+  color: kThemeDataLight.colorScheme.primary.withOpacity(0.6),
   fontSize: 14.0,
   fontWeight: FontWeight.w300,
   decoration: TextDecoration.underline,
@@ -183,9 +187,10 @@ final Map<ColorName, Color> colorMap = {
   ColorName.yellow: const Color(0xffE2F4A6),
 };
 
-ButtonStyle kHPTaskListStyleRandom(int index) {
-  currentColorIndex = index % 5;
-  ColorName currentColorName = ColorName.values[currentColorIndex];
+ButtonStyle kHPTaskListStyle(String listId) {
+  int hash = listId.hashCode.abs();
+  int colorIndex = hash % 5;
+  ColorName currentColorName = ColorName.values[colorIndex];
   Color color = colorMap[currentColorName]!;
 
   return ElevatedButton.styleFrom(
@@ -215,7 +220,7 @@ List<BoxShadow> kTaskListBoxShadow = [
 Custom icon buttons
  */
 ButtonStyle kElevatedButtonStyle = ElevatedButton.styleFrom(
-  backgroundColor: kThemeDataDark.colorScheme.onBackground.withOpacity(.8),
+  backgroundColor: kThemeDataLight.colorScheme.onBackground.withOpacity(.8),
   shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(30.0),
   ),
@@ -227,25 +232,25 @@ IconButton customIconButton(Function()? onPressed, Icon icon) =>
 Icon kBackArrowLeft = Icon(
   Icons.keyboard_arrow_left_rounded,
   size: 60,
-  color: kThemeDataDark.colorScheme.primary,
+  color: kThemeDataLight.colorScheme.primary,
 );
 
 Icon kOutArrowRight = Icon(
   Icons.arrow_outward_rounded,
   size: 48,
-  color: kThemeDataDark.colorScheme.primary,
+  color: kThemeDataLight.colorScheme.primary,
 );
 
 OutlineInputBorder kOutlineBorder = OutlineInputBorder(
     borderSide: BorderSide(
-      color: kThemeDataDark.colorScheme.onPrimary,
+      color: kThemeDataLight.colorScheme.onPrimary,
     ),
     borderRadius: const BorderRadius.all(Radius.circular(30.0)));
 
 Icon kListCardArrow = Icon(
   Icons.keyboard_arrow_right_rounded,
   size: 40,
-  color: kThemeDataDark.colorScheme.onSurface,
+  color: kThemeDataLight.colorScheme.onSurface,
 );
 
 /*

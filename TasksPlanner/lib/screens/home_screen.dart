@@ -142,9 +142,9 @@ class _HomePage extends State<HomePage> {
                               percent:
                                   UserLists.completionPercentage(userLists),
                               backgroundColor:
-                                  kThemeDataDark.colorScheme.onBackground,
+                                  kThemeDataLight.colorScheme.onBackground,
                               progressColor:
-                                  kThemeDataDark.colorScheme.onSurface,
+                                  kThemeDataLight.colorScheme.onSurface,
                               trailing: Text(
                                   UserLists.completionFraction(userLists),
                                   style: kBodyTextStyleDark),

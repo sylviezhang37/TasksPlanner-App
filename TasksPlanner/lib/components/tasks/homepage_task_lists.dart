@@ -87,7 +87,7 @@ class _HomePageMyLists extends State<HomePageTaskLists> {
                             ],
                           ),
                           child: ElevatedButton(
-                            style: kHPTaskListStyleRandom(index),
+                            style: kHPTaskListStyle(userLists[index].id),
                             onPressed: () {
                               Navigator.push(
                                   context,

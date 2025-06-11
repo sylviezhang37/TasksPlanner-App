@@ -57,10 +57,17 @@ class SettingsScreen extends StatelessWidget {
                   style: kHPHeaderTextStyle,
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.15,
+                  height: MediaQuery.of(context).size.height * 0.2,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
+                      ElevatedButton(
+                          style: kElevatedButtonStyle,
+                          onPressed: signOutOnPress,
+                          child: const Text(
+                            'Change Theme',
+                            style: kBodyTextStyleDark,
+                          )),
                       ElevatedButton(
                           style: kElevatedButtonStyle,
                           onPressed: signOutOnPress,
